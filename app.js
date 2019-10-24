@@ -1,14 +1,23 @@
 require('dotenv').config();
+const { APP_PORT } = process.env; 
+
 const express = require('express');
-const { APP_PORT } = process.env;
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const connectDB = require('./api/config/database');
 
 const app = express();
+connectDB();
 
-app.get('/', (req, res) => {
-  res.send('API Runnung!');
-})
+app
+  .use(bodyParser.urlencoded({ extended: false }))
+  .use(bodyParser.json())
+  .use(cors());
 
-app.listen(APP_PORT || 3000, (err) => {
+app.use('/api/users', require('./api/components/users/usersRoute'));
+
+app.listen(APP_PORT || 5000, (err) => {
   if(err) throw console.log(err);
-  console.log(`Server started on port ${APP_PORT}`);
+
+  console.log(`Server started on port ${APP_PORT}.`);
 });
