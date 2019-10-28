@@ -8,7 +8,7 @@ class HttpSuccess {
    /**
    * @constructor
    * @param {number} status - HTTP status code
-   * @param {string} message - Error description
+   * @param {string} message - Success description
    * @param {object} additionalData - Other data to be added in response
    */
   constructor(

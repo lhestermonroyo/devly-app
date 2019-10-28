@@ -1,6 +1,8 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
 const { MONGODB_URI } = process.env;
+const mongoose = require('mongoose');
+
+const DatabaseError = require('../responses/DatabaseError');
 
 const connectDB = async () => {
   try {
@@ -12,8 +14,8 @@ const connectDB = async () => {
 
     console.log('Connected to MongoDB.');
   } catch(err) {
-    console.log(err);
-
+    console.log(new DatabaseError(`Failed to connect to database: ${err}`));    
+    
     process.exit(1);
   }
 }
