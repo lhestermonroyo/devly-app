@@ -19,6 +19,6 @@ module.exports = function(req, res, next) {
     next();
   } catch(err) {
     console.log(err);
-    return res.status(500).json(new HttpError(new Date, 500, 9999, `Error: ${err}`));
+    return res.status(500).json(new HttpError(new Date, 500, 9999, `Error: No token, authorization denied.`));
   }
 }

@@ -19,24 +19,24 @@ const ValidationError = require('../../responses/ValidationError');
  */
 async function createUser(req, res, next) {
   const errors = validationResult(req);
-  const { 
+  const {
     firstname,
     lastname,
     email,
     password,
   } = req.body;
 
-  if(!errors.isEmpty()) {
+  if (!errors.isEmpty()) {
     return res.status(400).json(new ValidationError(400, errors.array()));
   }
 
   try {
     let user = await Users.findOne({ email });
-    
-    if(user) {
+
+    if (user) {
       await res.status(400).json(new ValidationError(400, { errors: [{ msg: 'User already exists.' }] }));
     }
-    
+
     const avatar = gravatar.url(email, {
       s: '200',
       r: 'pg',
@@ -47,13 +47,13 @@ async function createUser(req, res, next) {
       firstname,
       lastname,
       email,
-      password, 
+      password,
       avatar,
     });
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
-    
+
     await user.save();
 
     const payload = {
@@ -63,22 +63,22 @@ async function createUser(req, res, next) {
     };
 
     jwt.sign(
-      payload, 
-      JWT_SECRET, 
+      payload,
+      JWT_SECRET,
       { expiresIn: 360000 },
       (err, token) => {
-        if(err) {
+        if (err) {
           res.status(500).json(new HttpError(new Date(), 500, 9999, `Error: ${err}`));
         }
 
         res.status(200).json(new HttpSuccess(200, 'User has been created.', {
           userToken: token,
-          userData: userData,
+          userData: user,
         }));
       }
     )
-  } catch(err) {
-    console.log(err);
+  } catch (err) {
+    console.error(err);
     res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
   }
 }
