@@ -1,7 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 
-const { addPost, getAllPosts, getPostById, deletePost, likePost, unlikePost, addComment, deleteComment } = require('./postController');
+const { addPost, getAllPosts, getPostById, deletePost, likePost, unlikePost, addComment, deleteComment, updatePost } = require('./postController');
 const auth = require('../../utils/authUtil');
 
 const router = express.Router();
@@ -13,6 +13,15 @@ router.post(
     check('text', 'Text is required.').not().isEmpty()
   ],
   addPost
+);
+
+router.put(
+  '/:id',
+  [
+    auth,
+    check('text', 'Text is required.').not().isEmpty()
+  ],
+  updatePost
 );
 
 router.get(

@@ -45,6 +45,46 @@ async function addPost(req, res, next) {
 }
 
 /**
+ * Controller for request to update post
+ * @param {object} req - The request object
+ * @param {object} res - The response object
+ * @param {function} next - The next function to execute
+ */
+async function updatePost(req, res, next) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json(new ValidationError(400, errors.array()));
+  }
+
+  const { id } = req.params;
+
+  try {
+    let post = await Post.findByIdAndUpdate({ _id: id }, {$set: req.body}, { new: true });
+
+    if(post.user.toString() !== req.user.id) {
+      return res
+        .status(401)
+        .json(
+          new ValidationError(401, {
+            errors: [{ msg: 'User not authorized.' }],
+          })
+        );
+    }
+
+    console.log('Test');
+    post.save();
+    return res.status(200).json(
+      new HttpSuccess(200, 'Post has been updated.', {
+        postDetails: post,
+      }));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
+  }
+}
+
+/**
  * Controller for request to get all posts 
  * @param {object} req - The request object
  * @param {object} res - The response object
@@ -293,6 +333,7 @@ async function deleteComment(req, res, next) {
 
 module.exports = {
   addPost,
+  updatePost,
   getAllPosts,
   getPostById,
   deletePost,
