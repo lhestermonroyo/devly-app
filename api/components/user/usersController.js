@@ -6,7 +6,7 @@ const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
-const Users = require('./usersModel');
+const User = require('./usersModel');
 const HttpSuccess = require('../../responses/HttpSuccess');
 const HttpError = require('../../responses/HttpError');
 const ValidationError = require('../../responses/ValidationError');
@@ -19,6 +19,11 @@ const ValidationError = require('../../responses/ValidationError');
  */
 async function createUser(req, res, next) {
   const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json(new ValidationError(400, errors.array()));
+  }
+
   const {
     firstname,
     lastname,
@@ -26,15 +31,11 @@ async function createUser(req, res, next) {
     password,
   } = req.body;
 
-  if (!errors.isEmpty()) {
-    return res.status(400).json(new ValidationError(400, errors.array()));
-  }
-
   try {
-    let user = await Users.findOne({ email });
+    let user = await User.findOne({ email });
 
     if (user) {
-      await res.status(400).json(new ValidationError(400, { errors: [{ msg: 'User already exists.' }] }));
+      return res.status(400).json(new ValidationError(400, { errors: [{ msg: 'User already exists.' }] }));
     }
 
     const avatar = gravatar.url(email, {
@@ -43,7 +44,7 @@ async function createUser(req, res, next) {
       d: 'mm',
     });
 
-    user = new Users({
+    user = new User({
       firstname,
       lastname,
       email,
@@ -73,7 +74,7 @@ async function createUser(req, res, next) {
 
         res.status(200).json(new HttpSuccess(200, 'User has been created.', {
           userToken: token,
-          userData: user,
+          userDetails: user,
         }));
       }
     )
@@ -83,6 +84,26 @@ async function createUser(req, res, next) {
   }
 }
 
+/**
+ * Controller for request to get user
+ * @param {object} req - The request object
+ * @param {object} res - The response object
+ * @param {function} next - The next function to execute
+ */
+async function getUser(req, res, next) {
+  try {
+    let users = await User.find();
+    return res.status(200).json(
+      new HttpSuccess(200, 'Profile has been created.', {
+        users,
+      }));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
+  }
+}
+
 module.exports = {
   createUser,
+  getUser
 };

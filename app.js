@@ -15,9 +15,10 @@ app
   .use(cors());
 
 app
-  .use('/api/users', require('./api/components/users/usersRoute'))
+  .use('/api/user', require('./api/components/user/usersRoute'))
   .use('/api/auth', require('./api/components/auth/authRoute'))
-  .use('/api/profile', require('./api/components/profile/profileRoute'));
+  .use('/api/profile', require('./api/components/profile/profileRoute'))
+  .use('/api/post', require('./api/components/post/postRoute'));
 
 app.listen(APP_PORT || 5000, (err) => {
   if(err) throw console.log(err);

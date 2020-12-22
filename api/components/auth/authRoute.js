@@ -15,7 +15,7 @@ router.get(
 router.post(
   '/',
   check('email', 'Please includ a valid email.').isEmail(),
-  check('password', 'Please enter a password with 8 or more characters.').isLength({ min: 8 }),
+  check('password', 'Password is required.').exists(),
   loginAuth
 );
 

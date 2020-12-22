@@ -1,7 +1,7 @@
 const express = require('express');
 const { check } = require('express-validator');
 
-const { createUser } = require('./usersController');
+const { createUser, getUser } = require('./usersController');
 const router = express.Router();
 
 router.post(
@@ -13,5 +13,10 @@ router.post(
     check('password', 'Please enter a password with 8 or more characters.').isLength({ min: 8 }),
   ],
   createUser);
+
+router.get(
+  '/',
+  getUser
+)
 
 module.exports = router;

@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
-const User = require('../users/usersModel');
+const User = require('../user/usersModel');
 const HttpSuccess = require('../../responses/HttpSuccess');
 const HttpError = require('../../responses/HttpError');
 const ValidationError = require('../../responses/ValidationError');
@@ -23,33 +23,31 @@ async function getAuthUser(req, res, next) {
       userData: user,
     }));
   } catch(err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json(new HttpError(new Date, 500, 9999, `Error: ${err}`));
   }
 }
 
 /**
- * Controller for request to authenticate user
+ * Controller for request to authenticate user and get token
  * @param {object} req - The request object
  * @param {object} res - The response object
  * @param {function} next - The next function to execute
  */
 async function loginAuth(req, res, next) {
   const errors = validationResult(req);
-  const { 
-    email,
-    password,
-  } = req.body;
 
   if(!errors.isEmpty()) {
     return res.status(400).json(new ValidationError(400, errors.array()));
   }
 
+  const { email, password } = req.body;
+
   try {
     let user = await User.findOne({ email });
     
     if(!user) {
-      return res.status(400).json(new ValidationError(400, { errors: [{ msg: 'Username or password incorrect.' }] }));
+      return res.status(400).json(new ValidationError(400, { errors: [{ msg: 'Invalid credentials.' }] }));
     }
 
     const payload = {
@@ -61,7 +59,7 @@ async function loginAuth(req, res, next) {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if(!isMatch) {
-      return res.status(400).json(new ValidationError(400, { errors: [{ msg: 'Username or password incorrect.' }] }));
+      return res.status(400).json(new ValidationError(400, { errors: [{ msg: 'Invalid credentials.' }] }));
     }
 
     jwt.sign(
@@ -79,7 +77,7 @@ async function loginAuth(req, res, next) {
       }
     )
   } catch(err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
   }
 }
