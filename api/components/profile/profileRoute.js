@@ -1,16 +1,23 @@
 const express = require('express');
 const { check } = require('express-validator');
 
-const { getOwnProfile, createProfile, getAllProfiles, getProfileByUserId, deleteProfile, updateProfileExperience, updateProfileEducation, deleteProfileExperience, deleteProfileEducation, getGithubRepositories } = require('./profileController');
+const {
+  getOwnProfile,
+  createProfile,
+  getAllProfiles,
+  getProfileByUserId,
+  deleteProfile,
+  updateProfileExperience,
+  updateProfileEducation,
+  deleteProfileExperience,
+  deleteProfileEducation,
+  getGithubRepositories,
+} = require('./profileController');
 const auth = require('../../utils/authUtil');
 
 const router = express.Router();
 
-router.get(
-  '/me',
-  auth,
-  getOwnProfile
-);
+router.get('/me', auth, getOwnProfile);
 
 router.post(
   '/',
@@ -22,24 +29,14 @@ router.post(
   createProfile
 );
 
-router.get(
-  '/', 
-  getAllProfiles
-);
+router.get('/', getAllProfiles);
 
-router.get(
-  '/:user_id', 
-  getProfileByUserId
-);
+router.get('/:user_id', getProfileByUserId);
 
-router.delete(
-  '/', 
-  auth, 
-  deleteProfile
-)
+router.delete('/', auth, deleteProfile);
 
 router.put(
-  '/experience', 
+  '/experience',
   [
     auth,
     check('title', 'Title is required.').not().isEmpty(),
@@ -47,16 +44,12 @@ router.put(
     check('from', 'From date is required.').not().isEmpty(),
   ],
   updateProfileExperience
-)
+);
 
-router.delete(
-  '/experience/:exp_id',
-  auth,
-  deleteProfileExperience
-)
+router.delete('/experience/:exp_id', auth, deleteProfileExperience);
 
 router.put(
-  '/education', 
+  '/education',
   [
     auth,
     check('school', 'School is required.').not().isEmpty(),
@@ -65,17 +58,10 @@ router.put(
     check('from', 'From date is required.').not().isEmpty(),
   ],
   updateProfileEducation
-)
+);
 
-router.delete(
-  '/education/:edu_id',
-  auth,
-  deleteProfileEducation
-)
+router.delete('/education/:edu_id', auth, deleteProfileEducation);
 
-router.get(
-  '/github/:username',
-  getGithubRepositories
-)
+router.get('/github/:username', getGithubRepositories);
 
 module.exports = router;

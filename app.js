@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { APP_PORT } = process.env; 
+const { APP_PORT } = process.env;
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -21,7 +21,7 @@ app
   .use('/api/post', require('./api/components/post/postRoute'));
 
 app.listen(APP_PORT || 5000, (err) => {
-  if(err) throw console.log(err);
+  if (err) throw console.log(err);
 
   console.log(`Server started on port ${APP_PORT}.`);
 });

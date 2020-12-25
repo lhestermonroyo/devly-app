@@ -4,13 +4,13 @@
  */
 class HttpError extends Error {
   /**
-     * @constructor
-     * @param {datetime} timestamp - Date and time of the response
-     * @param {number} status - HTTP status code
-     * @param {number} code - Application specific error code
-     *  9999 for generic system error
-     * @param {string} message - Error description
-     */
+   * @constructor
+   * @param {datetime} timestamp - Date and time of the response
+   * @param {number} status - HTTP status code
+   * @param {number} code - Application specific error code
+   *  9999 for generic system error
+   * @param {string} message - Error description
+   */
   constructor(
     timestamp = new Date(),
     status = 500,

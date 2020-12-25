@@ -5,7 +5,7 @@ const { forEach } = require('lodash');
  * @module HttpSuccess
  */
 class HttpSuccess {
-   /**
+  /**
    * @constructor
    * @param {number} status - HTTP status code
    * @param {string} message - Success description
@@ -14,7 +14,7 @@ class HttpSuccess {
   constructor(
     status = 200,
     message = 'Operation completed successfully.',
-    additionalData,
+    additionalData
   ) {
     this.timestamp = new Date();
     this.status = status;

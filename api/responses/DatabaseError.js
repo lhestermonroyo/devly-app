@@ -9,9 +9,7 @@ class DatabaseError extends HttpError {
    * @constructor
    * @param {string} message - Custom error message
    */
-  constructor(
-    message = 'Database error',
-  ) {
+  constructor(message = 'Database error') {
     super(new Date(), 500, 9998, message);
   }
 }

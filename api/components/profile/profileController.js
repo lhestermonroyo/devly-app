@@ -1,11 +1,13 @@
 require('dotenv').config();
-const { GITHUB_CLIENT_ID, GITHUB_SECRET } = process.env; 
+const { GITHUB_CLIENT_ID, GITHUB_SECRET } = process.env;
 
 const { validationResult } = require('express-validator');
 const request = require('request');
 
 const Profile = require('../profile/profileModel');
 const User = require('../user/usersModel');
+const Post = require('../post/postModel');
+
 const HttpSuccess = require('../../responses/HttpSuccess');
 const HttpError = require('../../responses/HttpError');
 const ValidationError = require('../../responses/ValidationError');
@@ -23,13 +25,11 @@ async function getOwnProfile(req, res, next) {
     }).populate('user', ['email', 'avatar']);
 
     if (!profile) {
-      return res
-        .status(404)
-        .json(
-          new ValidationError(404, {
-            errors: [{ msg: 'There is no profile for this user.' }],
-          })
-        );
+      return res.status(404).json(
+        new ValidationError(404, {
+          errors: [{ msg: 'There is no profile for this user.' }],
+        })
+      );
     }
 
     await res.status(200).json(
@@ -105,7 +105,8 @@ async function createProfile(req, res, next) {
       return res.status(200).json(
         new HttpSuccess(200, 'Profile has been updated.', {
           profileData: profile,
-        }));
+        })
+      );
     }
 
     // Create
@@ -115,7 +116,8 @@ async function createProfile(req, res, next) {
     return res.status(200).json(
       new HttpSuccess(200, 'Profile has been created.', {
         profileDetails: profile,
-      }));
+      })
+    );
   } catch (err) {
     console.error(err);
     res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
@@ -130,12 +132,17 @@ async function createProfile(req, res, next) {
  */
 async function getAllProfiles(req, res, next) {
   try {
-    const profiles = await Profile.find().populate('user', ['firstname', 'lastname', 'avatar']);
+    const profiles = await Profile.find().populate('user', [
+      'firstname',
+      'lastname',
+      'avatar',
+    ]);
     return res.status(200).json(
       new HttpSuccess(200, 'Profiles has been retrieved.', {
         profiles,
-      }));
-  } catch(err) {
+      })
+    );
+  } catch (err) {
     console.error(err);
     res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
   }
@@ -150,22 +157,25 @@ async function getAllProfiles(req, res, next) {
 async function getProfileByUserId(req, res, next) {
   const { user_id } = req.params;
   try {
-    const profile = await Profile.findById({ _id: user_id }).populate('user', ['firstname', 'lastname', 'avatar']);
+    const profile = await Profile.findById({ _id: user_id }).populate('user', [
+      'firstname',
+      'lastname',
+      'avatar',
+    ]);
 
-    if(!profile) {
-      return res
-        .status(404)
-        .json(
-          new ValidationError(404, {
-            errors: [{ msg: 'There is no profile for this user.' }],
-          })
-        );
+    if (!profile) {
+      return res.status(404).json(
+        new ValidationError(404, {
+          errors: [{ msg: 'There is no profile for this user.' }],
+        })
+      );
     }
 
     return res.status(200).json(
       new HttpSuccess(200, 'Profile details has been retrieved.', {
         profileDetails: profile,
-      }));
+      })
+    );
   } catch (err) {
     console.error(err);
     res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
@@ -181,6 +191,7 @@ async function getProfileByUserId(req, res, next) {
 async function deleteProfile(req, res, next) {
   try {
     // @todo - remove user's posts
+    await Post.findOneAndRemove({ user: req.user.id });
 
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
@@ -191,7 +202,8 @@ async function deleteProfile(req, res, next) {
     return res.status(200).json(
       new HttpSuccess(200, {
         msg: 'User has been deleted.',
-      }));
+      })
+    );
   } catch (err) {
     console.error(err);
     res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
@@ -211,15 +223,7 @@ async function updateProfileExperience(req, res, next) {
     return res.status(400).json(new ValidationError(400, errors.array()));
   }
 
-  const {
-    title,
-    company,
-    location,
-    from,
-    to,
-    current,
-    description
-  } = req.body;
+  const { title, company, location, from, to, current, description } = req.body;
 
   const newExperience = {
     title,
@@ -228,7 +232,7 @@ async function updateProfileExperience(req, res, next) {
     from,
     to,
     current,
-    description
+    description,
   };
 
   try {
@@ -241,7 +245,8 @@ async function updateProfileExperience(req, res, next) {
     return res.status(200).json(
       new HttpSuccess(200, {
         msg: 'Experience has been updated.',
-      }));
+      })
+    );
   } catch (err) {
     console.error(err);
     res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
@@ -259,7 +264,9 @@ async function deleteProfileExperience(req, res, next) {
   try {
     const profile = await Profile.findOne({ user: req.user.id });
 
-    const removeIndex = profile.experience.map(item => item.id).indexOf(exp_id);
+    const removeIndex = profile.experience
+      .map((item) => item.id)
+      .indexOf(exp_id);
 
     profile.experience.splice(removeIndex, 1);
 
@@ -268,7 +275,8 @@ async function deleteProfileExperience(req, res, next) {
     return res.status(200).json(
       new HttpSuccess(200, {
         msg: 'Experience has been deleted.',
-      }));
+      })
+    );
   } catch (err) {
     console.error(err);
     res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
@@ -295,7 +303,7 @@ async function updateProfileEducation(req, res, next) {
     from,
     to,
     current,
-    description
+    description,
   } = req.body;
 
   const newEducation = {
@@ -305,7 +313,7 @@ async function updateProfileEducation(req, res, next) {
     from,
     to,
     current,
-    description
+    description,
   };
 
   try {
@@ -318,7 +326,8 @@ async function updateProfileEducation(req, res, next) {
     return res.status(200).json(
       new HttpSuccess(200, {
         msg: 'Education has been updated.',
-      }));
+      })
+    );
   } catch (err) {
     console.error(err);
     res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
@@ -336,7 +345,9 @@ async function deleteProfileEducation(req, res, next) {
   try {
     const profile = await Profile.findOne({ user: req.user.id });
 
-    const removeIndex = profile.education.map(item => item.id).indexOf(edu_id);
+    const removeIndex = profile.education
+      .map((item) => item.id)
+      .indexOf(edu_id);
 
     profile.education.splice(removeIndex, 1);
 
@@ -345,7 +356,8 @@ async function deleteProfileEducation(req, res, next) {
     return res.status(200).json(
       new HttpSuccess(200, {
         msg: 'Education has been deleted.',
-      }));
+      })
+    );
   } catch (err) {
     console.error(err);
     res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
@@ -365,33 +377,28 @@ async function getGithubRepositories(req, res, next) {
       uri: `https://api.github.com/users/${username}/repos?per_page=5&sort=created:asc&client=${GITHUB_CLIENT_ID}&client_secret=${GITHUB_SECRET}`,
       method: 'GET',
       headers: {
-        'user-agent': 'node.js'
-      }
+        'user-agent': 'node.js',
+      },
     };
 
     request(option, (err, response, body) => {
-      if(err) console.error(err);
+      if (err) console.error(err);
 
-      if(response.statusCode !== 200) {
-        return res
-        .status(404)
-        .json(
+      if (response.statusCode !== 200) {
+        return res.status(404).json(
           new ValidationError(404, {
             errors: [{ msg: 'No Github profile found.' }],
           })
         );
       }
 
-      res.status(200).json(
-        new HttpSuccess(200, JSON.parse(body)));
+      res.status(200).json(new HttpSuccess(200, JSON.parse(body)));
     });
-
   } catch (err) {
     console.error(err);
     res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
   }
 }
-
 
 module.exports = {
   getOwnProfile,
@@ -403,5 +410,5 @@ module.exports = {
   deleteProfileExperience,
   updateProfileEducation,
   deleteProfileEducation,
-  getGithubRepositories
+  getGithubRepositories,
 };

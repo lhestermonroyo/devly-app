@@ -6,11 +6,7 @@ const auth = require('../../utils/authUtil');
 
 const router = express.Router();
 
-router.get(
-  '/', 
-  auth,
-  getAuthUser
-);
+router.get('/', auth, getAuthUser);
 
 router.post(
   '/',

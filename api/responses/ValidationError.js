@@ -9,10 +9,7 @@ class ValidationError {
    * @param {string} message - Error description
    * @param {object} errors - Array of validation errors to be added in response
    */
-  constructor(
-    status = 400,
-    errors,
-  ) {
+  constructor(status = 400, errors) {
     this.timestamp = new Date();
     this.status = status;
     this.message = 'Validation error';
