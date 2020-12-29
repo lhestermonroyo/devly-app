@@ -1,0 +1,48 @@
+.nav-logo {
+  font-weight: 350;
+  letter-spacing: 6px;
+}
+
+.nav-link-btn {
+  margin-top: -6px;
+}
+
+.nav-link-btn.btn-primary {
+  border: 2px solid #1a1a1a;
+}
+
+.container-mt {
+  margin-top: 10em;
+}
+
+.hero-bg {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('./assets/landing-bg.jpg') no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  position: relative;
+}
+
+.hero-content {
+  position: absolute;
+  max-width: 768px;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.hero-content h1,
+.hero-content p {
+  color: #ffffff;
+}
+
+.hero-btn-group {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
