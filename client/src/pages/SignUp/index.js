@@ -2,6 +2,10 @@ import React from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import Main from '../../components/Main';
 import useForm from '../../customHooks/useForm';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { alertSet } from '../../actions/alertAction';
+import AlertDismissable from '../../components/Alert';
 
 const SignUp = () => {
   const [values, handleChange] = useForm({
@@ -14,11 +18,18 @@ const SignUp = () => {
 
   const { firstname, lastname, email, password, confirmPassword } = values;
 
+  const dispatch = useDispatch();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      console.log('Passwords do not match');
+      dispatch(
+        alertSet({
+          alertType: 'danger',
+          alertMsg: 'Passwords do not match.',
+        })
+      );
     } else {
       console.log(values);
     }
@@ -29,8 +40,9 @@ const SignUp = () => {
       <Row>
         <Col sm={0} md={3} />
         <Col sm={12} md={6}>
-          <h1 className='text-center'>Create an Account</h1>
-          <Form className='mt-5 mb-4' onSubmit={(e) => handleSubmit(e)}>
+          <h1 className='text-center mb-5'>Create an Account</h1>
+          <AlertDismissable />
+          <Form className='mb-4' onSubmit={(e) => handleSubmit(e)}>
             <Form.Group>
               <Form.Label>Firstname</Form.Label>
               <Form.Control
