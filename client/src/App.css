@@ -11,6 +11,11 @@
   border: none;
 }
 
+/* custom-loading */
+.loading-container {
+  background: #f0f0f0;
+}
+
 /* custom navbar */
 .nav-logo {
   font-weight: 350;

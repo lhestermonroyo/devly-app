@@ -1,11 +1,14 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import Main from '../../components/Main';
 import useForm from '../../customHooks/useForm';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { alertSet } from '../../actions/alertAction';
+import { signUpUser } from '../../actions/authAction';
 import AlertDismissable from '../../components/Alert';
+import Loading from '../../components/Loading';
 
 const SignUp = () => {
   const [values, handleChange] = useForm({
@@ -20,6 +23,8 @@ const SignUp = () => {
 
   const dispatch = useDispatch();
 
+  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -31,9 +36,14 @@ const SignUp = () => {
         })
       );
     } else {
-      console.log(values);
+      const userData = { firstname, lastname, email, password };
+      dispatch(signUpUser(userData));
     }
   };
+
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <Main>
@@ -41,6 +51,10 @@ const SignUp = () => {
         <Col sm={0} md={3} />
         <Col sm={12} md={6}>
           <h1 className='text-center mb-5'>Create an Account</h1>
+          <Loading
+            loadingMsg={'Signing up, please wait...'}
+            loading={loading}
+          />
           <AlertDismissable />
           <Form className='mb-4' onSubmit={(e) => handleSubmit(e)}>
             <Form.Group>

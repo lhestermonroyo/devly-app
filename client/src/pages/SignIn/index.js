@@ -1,7 +1,13 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import Main from '../../components/Main';
 import useForm from '../../customHooks/useForm';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { signInUser } from '../../actions/authAction';
+import AlertDismissable from '../../components/Alert';
+import Loading from '../../components/Loading';
 
 const SignIn = () => {
   const [values, handleChange] = useForm({
@@ -11,19 +17,32 @@ const SignIn = () => {
 
   const { email, password } = values;
 
+  const dispatch = useDispatch();
+
+  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(values);
+    dispatch(signInUser(values));
   };
+
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <Main>
       <Row>
         <Col xs={6} md={3} />
         <Col xs={6} md={6}>
-          <h1 className='text-center'>Sign In</h1>
-          <Form className='mt-5 mb-4' onSubmit={(e) => handleSubmit(e)}>
+          <h1 className='text-center mb-5'>Sign In</h1>
+          <Loading
+            loadingMsg={'Logging in, please wait...'}
+            loading={loading}
+          />
+          <AlertDismissable />
+          <Form className='mb-4' onSubmit={(e) => handleSubmit(e)}>
             <Form.Group>
               <Form.Label>Email</Form.Label>
               <Form.Control
