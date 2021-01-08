@@ -1,6 +1,5 @@
 import {
   AUTH_BEGIN,
-  AUTH_END,
   AUTH_SUCCESS,
   AUTH_FAIL,
   USER_LOADED,
@@ -21,21 +20,18 @@ export default function (state = initialState, action) {
         ...state,
         loading: true,
       };
-    case AUTH_END:
-      return {
-        ...state,
-        loading: false,
-      };
     case USER_LOADED:
       return {
         ...state,
+        loading: false,
         isAuthenticated: true,
-        user: payload,
+        userDetails: payload.userData,
       };
     case AUTH_SUCCESS:
       localStorage.setItem('token', payload.userToken);
       return {
         ...state,
+        loading: false,
         isAuthenticated: true,
         userDetails: payload.userDetails,
       };
@@ -43,6 +39,7 @@ export default function (state = initialState, action) {
       localStorage.removeItem('token');
       return {
         ...state,
+        loading: false,
         token: null,
         isAuthenticated: false,
       };

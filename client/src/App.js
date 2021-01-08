@@ -26,7 +26,7 @@ const App = () => {
       <React.Fragment>
         <BrowserRouter>
           <Header history={history} />
-          <Routes />
+          <Routes history={history} />
         </BrowserRouter>
       </React.Fragment>
     </Provider>

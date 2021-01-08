@@ -16,6 +16,12 @@
   background: #f0f0f0;
 }
 
+.loading-screen {
+  height: 100vh;
+  width: 100vh;
+  background: red;
+}
+
 /* custom navbar */
 .nav-logo {
   font-weight: 350;
@@ -28,6 +34,20 @@
 
 .nav-link-btn.btn-primary {
   border: 2px solid #1a1a1a;
+}
+
+.nav-avatar {
+  height: 40px;
+  width: 40px;
+  margin-top: -10px;
+}
+
+#nav-dropdown::after {
+  display: none;
+}
+
+.nav-name-content {
+  margin-bottom: 2px;
 }
 
 /* main container */

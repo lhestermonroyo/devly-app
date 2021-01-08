@@ -9,7 +9,9 @@ import { signInUser } from '../../actions/authAction';
 import AlertDismissable from '../../components/Alert';
 import Loading from '../../components/Loading';
 
-const SignIn = () => {
+const SignIn = (props) => {
+  const { history } = props;
+
   const [values, handleChange] = useForm({
     email: '',
     password: '',
@@ -28,7 +30,7 @@ const SignIn = () => {
   };
 
   if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
+    history.push('/dashboard');
   }
 
   return (
