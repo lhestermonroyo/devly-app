@@ -34,7 +34,7 @@ async function getOwnProfile(req, res, next) {
 
     await res.status(200).json(
       new HttpSuccess(200, 'Profile details has been retrieved.', {
-        profileData: profile,
+        profileDetails: profile,
       })
     );
   } catch (err) {
@@ -104,7 +104,7 @@ async function createProfile(req, res, next) {
 
       return res.status(200).json(
         new HttpSuccess(200, 'Profile has been updated.', {
-          profileData: profile,
+          profileDetails: profile,
         })
       );
     }
@@ -223,12 +223,22 @@ async function updateProfileExperience(req, res, next) {
     return res.status(400).json(new ValidationError(400, errors.array()));
   }
 
-  const { title, company, location, from, to, current, description } = req.body;
+  const {
+    title,
+    company,
+    location,
+    type,
+    from,
+    to,
+    current,
+    description,
+  } = req.body;
 
   const newExperience = {
     title,
     company,
     location,
+    type,
     from,
     to,
     current,

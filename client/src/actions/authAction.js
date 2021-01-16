@@ -58,7 +58,7 @@ export const signUpUser = (userData) => async (dispatch) => {
   }
 };
 
-export const signInUser = (userCreds) => async (dispatch) => {
+export const signInUser = (userData) => async (dispatch) => {
   dispatch(authBegin());
 
   const config = {
@@ -68,12 +68,12 @@ export const signInUser = (userCreds) => async (dispatch) => {
   };
 
   try {
-    const res = await axios.post('/api/auth', userCreds, config);
+    const res = await axios.post('/api/auth', userData, config);
 
     dispatch(authSuccess(res.data));
     dispatch(loadUser());
   } catch (err) {
-    console.log('Error', err);
+    console.log('Error', err.errors);
     dispatch(authFail());
     dispatch(
       alertSet({

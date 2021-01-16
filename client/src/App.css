@@ -17,9 +17,15 @@
 }
 
 .loading-screen {
-  height: 100vh;
-  width: 100vh;
-  background: red;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 9999;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 /* custom navbar */
@@ -86,4 +92,78 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* profile custom ui */
+.profile-bg {
+  padding-top: 12em;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url('./assets/landing-bg.jpg') no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 775px;
+  position: relative;
+}
+
+.profile-container {
+  position: relative;
+}
+
+.profile-subdetails {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-subdetails .text-inline {
+  display: inline;
+  text-align: center;
+  margin-right: 16px;
+}
+
+.profile-bio {
+  margin: auto;
+  width: 700px;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-skills {
+  margin: auto;
+  width: 700px;
+}
+
+.profile-edit-btn {
+  position: absolute;
+  right: 0;
+}
+
+.profile-details-nav {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.nav-active {
+  padding-bottom: 12px;
+  border-bottom: 2px solid #1a1a1a;
+}
+
+.profile-details-subdetails {
+  display: flex;
+}
+
+.profile-details-subdetails .text-inline {
+  display: inline;
+  text-align: center;
+  margin-right: 16px;
+}
+
+.profile-details-socials {
+  display: flex;
+  align-items: center;
+}
+
+.profile-details-socials .text-inline {
+  display: inline;
 }

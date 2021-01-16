@@ -41,6 +41,10 @@ const ProfileSchema = new mongoose.Schema({
         type: String,
         required: false,
       },
+      type: {
+        type: String,
+        required: true,
+      },
       from: {
         type: String,
         required: true,
@@ -82,7 +86,7 @@ const ProfileSchema = new mongoose.Schema({
         required: false,
       },
       current: {
-        type: String,
+        type: Boolean,
         required: false,
       },
       description: {

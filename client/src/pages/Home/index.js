@@ -1,7 +1,17 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+// Redux
+import { useSelector } from 'react-redux';
 
-const Home = () => {
+const Home = (props) => {
+  const { history } = props;
+
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
+  if (isAuthenticated) {
+    history.push('/dashboard');
+  }
+
   return (
     <div className='hero-bg'>
       <div className='hero-content'>

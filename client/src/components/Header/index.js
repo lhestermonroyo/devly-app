@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Navbar,
   Nav,
@@ -17,7 +17,9 @@ const Header = (props) => {
 
   const dispatch = useDispatch();
 
-  const { isAuthenticated, userDetails } = useSelector((state) => state.auth);
+  const { isAuthenticated, userDetails, loading } = useSelector(
+    (state) => state.auth
+  );
 
   const handleLogOut = () => {
     dispatch(signOutUser(history));
@@ -53,22 +55,19 @@ const Header = (props) => {
         className={pathname === '/dashboard' && 'active'}
         href='/dashboard'
       >
-        <i className='fa fa-home fa-fw fa-2x' />
-      </Nav.Link>
-      <Nav.Link className={pathname === '/search' && 'active'} href='/search'>
-        <i className='fa fa-search fa-fw fa-2x' />
+        Dashboard
       </Nav.Link>
       <Nav.Link
         className={pathname === '/reading-list' && 'active'}
         href='/reading-list'
       >
-        <i className='fa fa-bookmark fa-fw fa-2x' />
+        Saved Posts
       </Nav.Link>
       <Nav.Link
         className={pathname === '/notifications' && 'active'}
         href='/notifications'
       >
-        <i className='fa fa-globe fa-fw fa-2x' />
+        Notifs
       </Nav.Link>
       <NavDropdown
         alignRight
@@ -82,7 +81,7 @@ const Header = (props) => {
         }
         id='nav-dropdown'
       >
-        <NavDropdown.Item>
+        <NavDropdown.Item href='/profile'>
           {userDetails && (
             <React.Fragment>
               <p className='text-primary nav-name-content'>
@@ -98,6 +97,9 @@ const Header = (props) => {
         <NavDropdown.Item href='/create-post'>Write a post</NavDropdown.Item>
         <NavDropdown.Item href='/posts'>Posts</NavDropdown.Item>
         <NavDropdown.Divider />
+        <NavDropdown.Item href='/account-settings'>
+          Account Settings
+        </NavDropdown.Item>
         <NavDropdown.Item onClick={() => handleLogOut()}>
           Log Out
         </NavDropdown.Item>
@@ -121,9 +123,11 @@ const Header = (props) => {
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />
           <Navbar.Collapse id='responsive-navbar-nav'>
             <Nav className='mr-auto'></Nav>
-            <React.Fragment>
-              {isAuthenticated ? privateLinks : publicLinks}
-            </React.Fragment>
+            {!loading && (
+              <React.Fragment>
+                {isAuthenticated ? privateLinks : publicLinks}
+              </React.Fragment>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
