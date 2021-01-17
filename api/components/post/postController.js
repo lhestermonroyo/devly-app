@@ -22,7 +22,9 @@ async function addPost(req, res, next) {
 
   try {
     const newPost = {
-      text: req.body.text,
+      title: req.body.title,
+      content: req.body.content,
+      thumbnail: req.body.thumbnail,
       user: req.user.id,
     };
 

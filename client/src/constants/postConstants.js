@@ -1,0 +1,6 @@
+export const POST_BEGIN = 'POST_BEGIN';
+export const POST_END = 'POST_END';
+export const POST_DETAILS_SUCCESS = 'POST_DETAILS_SUCCESS';
+export const POST_DETAILS_FAIL = 'POST_DETAILS_FAIL';
+export const POSTS_SUCCESS = 'POSTS_SUCCESS';
+export const POSTS_FAIL = 'POSTS_FAIL';

@@ -21,13 +21,18 @@ const Routes = (props) => {
       <PublicRoute exact path='/sign-in' history={history} component={SignIn} />
       <PublicRoute exact path='/sign-up' history={history} component={SignUp} />
       <PrivateRoute exact path='/dashboard' component={Dashboard} />
-      <PrivateRoute exact path='/create-post' component={CreatePost} />
       <PrivateRoute exact path='/profile' component={Profile} />
       <PrivateRoute
         exact
         path='/edit-profile'
         history={history}
         component={EditProfile}
+      />
+      <PrivateRoute
+        exact
+        path='/create-post'
+        component={CreatePost}
+        history={history}
       />
     </Switch>
   );

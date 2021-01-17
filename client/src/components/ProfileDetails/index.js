@@ -14,7 +14,7 @@ const ProfileDetails = (props) => {
   const [key, setKey] = useState('#experience');
 
   const { profileDetails, userDetails } = props;
-  const { experience, education, skills, social } = profileDetails;
+  const { experience, education, social } = profileDetails;
 
   return (
     <Container className='mt-2 mb-5'>
@@ -57,8 +57,16 @@ const ProfileDetails = (props) => {
       <div className='mt-5'>
         {key === '#experience' && (
           <React.Fragment>
+            <Button
+              title='Add Experience'
+              className='float-right'
+              variant='outline-primary'
+              href='/edit-profile#experience'
+            >
+              <i className='fa fa-plus fa-fw' />
+            </Button>
             <h1>Work Experience</h1>
-            <ListGroup className='mt-3'>
+            <ListGroup className='mt-5'>
               {experience.map((item) => {
                 return (
                   <Card key={item.id} className='mb-2'>
@@ -98,8 +106,16 @@ const ProfileDetails = (props) => {
         )}
         {key === '#education' && (
           <React.Fragment>
+            <Button
+              title='Add Education'
+              className='float-right'
+              variant='outline-primary'
+              href='/edit-profile#education'
+            >
+              <i className='fa fa-plus fa-fw' />
+            </Button>
             <h1>Education</h1>
-            <ListGroup className='mt-3'>
+            <ListGroup className='mt-5'>
               {education.map((item) => {
                 return (
                   <Card key={item.id} className='mb-2'>
