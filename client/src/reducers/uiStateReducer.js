@@ -1,9 +1,14 @@
-import { ALERT_SET, ALERT_HIDE } from '../constants/alertConstants';
+import {
+  ALERT_SET,
+  ALERT_HIDE,
+  GET_CURRENT_PAGE,
+} from '../constants/uiStateConstants';
 
 const initialState = {
   alertType: null,
   alertMsg: '',
   alertShow: false,
+  currentPage: null,
 };
 
 export default function (state = initialState, action) {
@@ -22,6 +27,11 @@ export default function (state = initialState, action) {
         alertType: null,
         alertMsg: '',
         alertShow: false,
+      };
+    case GET_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: payload,
       };
     default:
       return {

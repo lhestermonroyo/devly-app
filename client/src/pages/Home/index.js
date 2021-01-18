@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 // Redux
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentPage } from '../../actions/uiStateAction';
 
 const Home = (props) => {
   const { history } = props;
 
   const { isAuthenticated } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCurrentPage('Home'));
+  }, []);
 
   if (isAuthenticated) {
     history.push('/dashboard');

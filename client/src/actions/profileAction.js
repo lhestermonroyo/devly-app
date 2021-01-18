@@ -9,7 +9,7 @@ import {
   PROFILES_FAIL,
   REPOS_FAIL,
 } from '../constants/profileConstants';
-import { alertSet } from './alertAction';
+import { alertSet } from './uiStateAction';
 
 export const profileBegin = () => ({
   type: PROFILE_BEGIN,

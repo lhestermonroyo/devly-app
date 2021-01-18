@@ -2,11 +2,11 @@ import React from 'react';
 import { Alert } from 'react-bootstrap';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { alertHide } from '../../actions/alertAction';
+import { alertHide } from '../../actions/uiStateAction';
 
 const AlertDismissable = () => {
   const { alertType, alertMsg, alertShow } = useSelector(
-    (state) => state.alert
+    (state) => state.uiState
   );
   const dispatch = useDispatch();
 

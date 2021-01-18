@@ -37,47 +37,46 @@ const CreatePost = (props) => {
     <Main>
       <AlertDismissable />
       <h1>Write a Post</h1>
-      <Button
-        onClick={(e) => handleSubmit(e)}
-        className='float-right publish-post-btn'
-      >
-        Publish Post
-      </Button>
-      <Form.Group className='mt-5'>
-        <Form.Control
-          className='post-title-textarea'
-          name='title'
-          as='textarea'
-          placeholder='Title'
-          value={title}
-          onChange={(e) => handleTitle(e.target.value)}
-          required={true}
-        />
-      </Form.Group>
-      <Editor
-        apiKey='d01fggzhnl8ykqa0mv3t83mdkkw8f4j5aj305lr5it0pvjck'
-        initialValue={content}
-        init={{
-          placeholder: 'What do you have in mind?',
-          selector: 'textarea',
-          resize: false,
-          height: 500,
-          menubar: false,
-          toolbar_mode: 'floating',
-          toolbar_location: 'bottom',
-          skin: 'outside',
-          plugins: [
-            'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table paste code help wordcount',
-          ],
-          toolbar:
-            'undo redo | formatselect | bold italic backcolor | link image | \
+      <Form onSubmit={(e) => handleSubmit(e)}>
+        <Button type='submit' className='float-right publish-post-btn'>
+          Publish Post
+        </Button>
+        <Form.Group className='mt-5'>
+          <Form.Control
+            className='post-title-textarea'
+            name='title'
+            as='textarea'
+            placeholder='Title'
+            value={title}
+            onChange={(e) => handleTitle(e.target.value)}
+            required={true}
+          />
+        </Form.Group>
+        <Editor
+          apiKey='d01fggzhnl8ykqa0mv3t83mdkkw8f4j5aj305lr5it0pvjck'
+          initialValue={content}
+          init={{
+            placeholder: 'What do you have in mind?',
+            selector: 'textarea',
+            resize: false,
+            height: 500,
+            menubar: false,
+            toolbar_mode: 'floating',
+            toolbar_location: 'bottom',
+            skin: 'outside',
+            plugins: [
+              'advlist autolink lists link image charmap print preview anchor',
+              'searchreplace visualblocks code fullscreen',
+              'insertdatetime media table paste code help wordcount',
+            ],
+            toolbar:
+              'undo redo | formatselect | bold italic backcolor | link image | \
              alignleft aligncenter alignright alignjustify | \
              bullist numlist outdent indent | removeformat | help',
-        }}
-        onEditorChange={(e) => handleContent(e)}
-      />
+          }}
+          onEditorChange={(e) => handleContent(e)}
+        />
+      </Form>
       <div
         style={{ display: 'none' }}
         id='preview'

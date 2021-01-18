@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Navbar,
   Nav,
@@ -20,6 +20,7 @@ const Header = (props) => {
   const { isAuthenticated, userDetails, loading } = useSelector(
     (state) => state.auth
   );
+  const { currentPage } = useSelector((state) => state.uiState);
 
   const handleLogOut = () => {
     dispatch(signOutUser(history));
@@ -27,22 +28,25 @@ const Header = (props) => {
 
   const publicLinks = (
     <Nav>
-      <Nav.Link className={pathname === '/' && 'active'} href='/'>
+      <Nav.Link className={currentPage === 'Home' && 'active'} href='/'>
         Home
       </Nav.Link>
       <Nav.Link
-        className={pathname === '/developers' && 'active'}
+        className={currentPage === 'Developers' && 'active'}
         href='/developers'
       >
         Developers
       </Nav.Link>
-      <Nav.Link className={pathname === '/sign-in' && 'active'} href='/sign-in'>
+      <Nav.Link
+        className={currentPage === 'Sign In' && 'active'}
+        href='/sign-in'
+      >
         Sign In
       </Nav.Link>
       <Button
         href='/sign-up'
         className='nav-link-btn ml-2'
-        variant={pathname === '/sign-up' ? 'primary' : 'outline-primary'}
+        variant={currentPage === 'Sign Up' ? 'primary' : 'outline-primary'}
       >
         Sign Up
       </Button>
@@ -52,19 +56,19 @@ const Header = (props) => {
   const privateLinks = (
     <Nav>
       <Nav.Link
-        className={pathname === '/dashboard' && 'active'}
+        className={currentPage === 'Dashboard' && 'active'}
         href='/dashboard'
       >
         Dashboard
       </Nav.Link>
       <Nav.Link
-        className={pathname === '/reading-list' && 'active'}
+        className={currentPage === 'Saved Posts' && 'active'}
         href='/reading-list'
       >
         Saved Posts
       </Nav.Link>
       <Nav.Link
-        className={pathname === '/notifications' && 'active'}
+        className={currentPage === 'Notifs' && 'active'}
         href='/notifications'
       >
         Notifs

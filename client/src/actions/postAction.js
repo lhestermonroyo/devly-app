@@ -7,7 +7,7 @@ import {
   POSTS_SUCCESS,
   POSTS_FAIL,
 } from '../constants/postConstants';
-import { alertSet } from './alertAction';
+import { alertSet } from './uiStateAction';
 
 export const postBegin = () => ({
   type: POST_BEGIN,

@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import Main from '../../components/Main';
+import Posts from '../../components/Posts';
 import LoadingScreen from '../../components/LoadingScreen';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profileAction';
 import { getAllPosts } from '../../actions/postAction';
-import Posts from '../../components/Posts';
+import { getCurrentPage } from '../../actions/uiStateAction';
 
-const Dashboard = () => {
+const Dashboard = (props) => {
+  const { history } = props;
   const { profileDetails, loading: profileLoading } = useSelector(
     (state) => state.profile
   );
@@ -18,11 +20,10 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getCurrentPage('Dashboard'));
     dispatch(getCurrentProfile());
     dispatch(getAllPosts());
   }, []);
-
-  console.log(posts);
 
   return profileLoading || postLoading ? (
     <LoadingScreen loadingMsg='Loading, please wait...' />
@@ -54,7 +55,9 @@ const Dashboard = () => {
           <i className='fa fa-pencil fa-fw' />
         </Button>
       )}
-      {posts && <Posts posts={posts} userDetails={userDetails} />}
+      {posts && (
+        <Posts posts={posts} userDetails={userDetails} history={history} />
+      )}
     </Main>
   );
 };

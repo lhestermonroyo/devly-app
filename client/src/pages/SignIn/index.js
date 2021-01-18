@@ -1,13 +1,13 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import Main from '../../components/Main';
 import useForm from '../../customHooks/useForm';
+import AlertDismissable from '../../components/Alert';
+import Loading from '../../components/Loading';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { signInUser } from '../../actions/authAction';
-import AlertDismissable from '../../components/Alert';
-import Loading from '../../components/Loading';
+import { getCurrentPage } from '../../actions/uiStateAction';
 
 const SignIn = (props) => {
   const { history } = props;
@@ -19,9 +19,13 @@ const SignIn = (props) => {
 
   const { email, password } = values;
 
+  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
 
-  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+  useEffect(() => {
+    dispatch(getCurrentPage('Sign In'));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

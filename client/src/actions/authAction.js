@@ -5,7 +5,7 @@ import {
   AUTH_FAIL,
   USER_LOADED,
 } from '../constants/authConstants';
-import { alertSet } from './alertAction';
+import { alertSet } from './uiStateAction';
 import axios from 'axios';
 import setAuthToken from '../util/setAuthToken';
 

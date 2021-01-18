@@ -1,14 +1,14 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import Main from '../../components/Main';
 import useForm from '../../customHooks/useForm';
-// Redux
-import { useDispatch, useSelector } from 'react-redux';
-import { alertSet } from '../../actions/alertAction';
-import { signUpUser } from '../../actions/authAction';
 import AlertDismissable from '../../components/Alert';
 import Loading from '../../components/Loading';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { alertSet } from '../../actions/uiStateAction';
+import { signUpUser } from '../../actions/authAction';
+import { getCurrentPage } from '../../actions/uiStateAction';
 
 const SignUp = (props) => {
   const { history } = props;
@@ -23,9 +23,13 @@ const SignUp = (props) => {
 
   const { firstname, lastname, email, password, confirmPassword } = values;
 
+  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
 
-  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+  useEffect(() => {
+    dispatch(getCurrentPage('Sign Up'));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

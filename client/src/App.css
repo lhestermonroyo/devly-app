@@ -30,7 +30,7 @@
 
 /* custom navbar */
 .nav-logo {
-  font-weight: 350;
+  font-weight: 500;
   letter-spacing: 6px;
 }
 
@@ -175,7 +175,7 @@
 }
 
 .publish-post-btn {
-  margin-top: -60px;
+  margin-top: -90px;
 }
 
 .post-title-textarea {
@@ -220,6 +220,10 @@
 }
 
 .post-card-thumbnail {
+  cursor: pointer;
+  background: rgb(245, 245, 245);
+  height: 275px;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -232,13 +236,18 @@
 }
 
 .post-card-thumbnail-2 {
+  cursor: pointer;
+  background: rgb(245, 245, 245);
   height: 225px;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .post-user img {
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
 }
 
 .post-user p {
