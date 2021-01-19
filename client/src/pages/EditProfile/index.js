@@ -31,7 +31,7 @@ const EditProfile = (props) => {
         <React.Fragment>
           <Button className='mb-3' href='/profile' variant='outline-primary'>
             <i className='fa fa-chevron-left fa-fw' />
-            Back to Profile
+            Back
           </Button>
           <Nav
             className='profile-details-nav'

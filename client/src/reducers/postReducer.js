@@ -5,6 +5,7 @@ import {
   POST_DETAILS_FAIL,
   POSTS_SUCCESS,
   POSTS_FAIL,
+  UPDATE_LIKE_SUCCESS,
 } from '../constants/postConstants';
 
 const initialState = {
@@ -49,6 +50,11 @@ export default function (state = initialState, action) {
         ...state,
         loading: false,
         posts: [],
+      };
+    case UPDATE_LIKE_SUCCESS:
+      return {
+        ...state,
+        postDetails: { ...state.postDetails, likes: payload.postLikes },
       };
     default:
       return {

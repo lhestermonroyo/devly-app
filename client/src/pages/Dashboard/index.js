@@ -52,7 +52,7 @@ const Dashboard = (props) => {
           variant='outline-primary'
           href='/create-post'
         >
-          <i className='fa fa-pencil fa-fw' />
+          <i className='fa fa-pen fa-fw' />
         </Button>
       )}
       {posts && (

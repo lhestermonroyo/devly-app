@@ -6,6 +6,7 @@ import {
   POST_DETAILS_FAIL,
   POSTS_SUCCESS,
   POSTS_FAIL,
+  UPDATE_LIKE_SUCCESS,
 } from '../constants/postConstants';
 import { alertSet } from './uiStateAction';
 
@@ -33,6 +34,11 @@ export const postDetailsFail = () => ({
 
 export const postsFail = () => ({
   type: POSTS_FAIL,
+});
+
+export const updateLikeSuccess = (res) => ({
+  type: UPDATE_LIKE_SUCCESS,
+  payload: res,
 });
 
 export const savePost = (postData, history) => async (dispatch) => {
@@ -79,6 +85,56 @@ export const getAllPosts = () => async (dispatch) => {
       alertSet({
         alertType: 'danger',
         alertMsg: 'An error occured while fetching data.',
+      })
+    );
+  }
+};
+
+export const getPostDetails = (postId) => async (dispatch) => {
+  dispatch(postBegin());
+
+  try {
+    const res = await axios.get(`/api/post/${postId}`);
+
+    dispatch(postDetailsSuccess(res.data));
+  } catch (err) {
+    dispatch(postDetailsFail());
+    dispatch(
+      alertSet({
+        alertType: 'danger',
+        alertMsg: 'An error occured while fetching data.',
+      })
+    );
+  }
+};
+
+export const likePost = (postId) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/post/like/${postId}`);
+
+    dispatch(updateLikeSuccess(res.data));
+  } catch (err) {
+    dispatch(postDetailsFail());
+    dispatch(
+      alertSet({
+        alertType: 'danger',
+        alertMsg: 'An error occured while liking post.',
+      })
+    );
+  }
+};
+
+export const unlikePost = (postId) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/post/unlike/${postId}`);
+
+    dispatch(updateLikeSuccess(res.data));
+  } catch (err) {
+    dispatch(postDetailsFail());
+    dispatch(
+      alertSet({
+        alertType: 'danger',
+        alertMsg: 'An error occured while unliking post.',
       })
     );
   }

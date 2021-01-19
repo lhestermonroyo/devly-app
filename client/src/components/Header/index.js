@@ -63,15 +63,21 @@ const Header = (props) => {
       </Nav.Link>
       <Nav.Link
         className={currentPage === 'Saved Posts' && 'active'}
-        href='/reading-list'
+        href='/bookmarks'
       >
-        Saved Posts
+        Bookmarks
       </Nav.Link>
       <Nav.Link
         className={currentPage === 'Notifs' && 'active'}
         href='/notifications'
       >
         Notifs
+      </Nav.Link>
+      <Nav.Link
+        className={currentPage === 'Notifs' && 'active'}
+        href='/notifications'
+      >
+        <i className='fa fa-search fa-fw' style={{ fontSize: 16 }} />
       </Nav.Link>
       <NavDropdown
         alignRight
@@ -122,7 +128,7 @@ const Header = (props) => {
       >
         <Container>
           <Navbar.Brand href='/' className='nav-logo'>
-            {`</>`} DEVLY
+            <i className='fa fa-code fa-fw' /> DEVLY
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />
           <Navbar.Collapse id='responsive-navbar-nav'>

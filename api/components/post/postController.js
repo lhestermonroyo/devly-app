@@ -79,11 +79,9 @@ async function updatePost(req, res, next) {
       );
     }
 
-    const postDetails = await Post.findById(id).populate('user', [
-      'firstname',
-      'lastname',
-      'avatar',
-    ]);
+    const postDetails = await Post.findById(id)
+      .populate('user', ['firstname', 'lastname', 'avatar'])
+      .populate('user', ['firstname', 'lastname', 'avatar']);
 
     return res.status(200).json(
       new HttpSuccess(200, 'Post has been updated.', {
@@ -106,8 +104,7 @@ async function getAllPosts(req, res, next) {
   try {
     const posts = await Post.find()
       .sort({ date: -1 })
-      .populate('user', ['firstname', 'lastname', 'avatar'])
-      .populate('comments.user', ['firstname', 'lastname', 'avatar']);
+      .populate('user', ['firstname', 'lastname', 'avatar']);
 
     return res.status(200).json(
       new HttpSuccess(200, 'Posts has been retrieved.', {
@@ -129,11 +126,9 @@ async function getAllPosts(req, res, next) {
 async function getPostById(req, res, next) {
   const { id } = req.params;
   try {
-    const post = await Post.findById({ _id: id }).populate('user', [
-      'firstname',
-      'lastname',
-      'avatar',
-    ]);
+    const post = await Post.findById({ _id: id })
+      .populate('user', ['firstname', 'lastname', 'avatar'])
+      .populate('comments.user', ['firstname', 'lastname', 'avatar']);
 
     if (!post) {
       return res.status(404).json(

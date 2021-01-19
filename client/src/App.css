@@ -213,7 +213,7 @@
   line-height: 1.4;
 }
 
-/* custom dashboard */
+/* custom dashboard ui */
 .post-card-block {
   height: 275px;
   overflow: hidden;
@@ -252,4 +252,61 @@
 
 .post-user p {
   display: inline;
+}
+
+/* custom post details */
+
+.post-details-btn-group {
+  margin-top: -4px;
+}
+
+.post-details-btn-group button {
+  font-size: 16px;
+}
+
+.post-content img {
+  width: 100%;
+  height: auto;
+  margin: 1rem 0;
+}
+
+.post-footer-btn-group button {
+  padding: 0px;
+  text-align: center;
+  text-decoration: none !important;
+}
+
+.post-footer-btn-group button:focus {
+  box-shadow: none;
+}
+
+.post-footer-btn-group button:nth-child(2) {
+  height: 20px;
+}
+
+/* custom post comment */
+.modal-dialog {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  margin: 0px;
+}
+
+.modal-content {
+  width: 500px;
+  height: 100vh;
+}
+
+.modal-body {
+  overflow-y: auto;
+}
+
+#post-more-dropdown {
+  position: absolute;
+  top: -10px;
+  right: -45px;
+}
+
+#post-more-dropdown::after {
+  display: none;
 }
