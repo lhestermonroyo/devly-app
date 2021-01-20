@@ -7,6 +7,8 @@ import {
   POSTS_SUCCESS,
   POSTS_FAIL,
   UPDATE_LIKE_SUCCESS,
+  ADD_COMMENT_SUCCESS,
+  COMMENT_BEGIN,
 } from '../constants/postConstants';
 import { alertSet } from './uiStateAction';
 
@@ -16,6 +18,10 @@ export const postBegin = () => ({
 
 export const postEnd = () => ({
   type: POST_END,
+});
+
+export const commentBegin = () => ({
+  type: COMMENT_BEGIN,
 });
 
 export const postDetailsSuccess = (res) => ({
@@ -38,6 +44,11 @@ export const postsFail = () => ({
 
 export const updateLikeSuccess = (res) => ({
   type: UPDATE_LIKE_SUCCESS,
+  payload: res,
+});
+
+export const addCommentSuccess = (res) => ({
+  type: ADD_COMMENT_SUCCESS,
   payload: res,
 });
 
@@ -135,6 +146,30 @@ export const unlikePost = (postId) => async (dispatch) => {
       alertSet({
         alertType: 'danger',
         alertMsg: 'An error occured while unliking post.',
+      })
+    );
+  }
+};
+
+export const commentPost = (postId, text) => async (dispatch) => {
+  dispatch(commentBegin());
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    const res = await axios.put(`/api/post/comment/${postId}`, text, config);
+
+    dispatch(addCommentSuccess(res.data));
+  } catch (err) {
+    dispatch(postDetailsFail());
+    dispatch(
+      alertSet({
+        alertType: 'danger',
+        alertMsg: 'An error occured while commenting post.',
       })
     );
   }

@@ -128,7 +128,8 @@ async function getPostById(req, res, next) {
   try {
     const post = await Post.findById({ _id: id })
       .populate('user', ['firstname', 'lastname', 'avatar'])
-      .populate('comments.user', ['firstname', 'lastname', 'avatar']);
+      .populate('comments.user', ['firstname', 'lastname', 'avatar'])
+      .populate('likes.user', ['firstname', 'lastname', 'avatar']);
 
     if (!post) {
       return res.status(404).json(
@@ -207,9 +208,16 @@ async function likePost(req, res, next) {
     post.likes.unshift({ user: req.user.id });
 
     await post.save();
+
+    const postLikes = await Post.findById({ _id: id }).populate('likes.user', [
+      'firstname',
+      'lastname',
+      'avatar',
+    ]);
+
     return res.status(200).json(
       new HttpSuccess(200, 'Post has been liked', {
-        postLikes: post.likes,
+        postLikes: postLikes.likes,
       })
     );
   } catch (err) {
@@ -248,9 +256,15 @@ async function unlikePost(req, res, next) {
     post.likes.splice(removeIndex, 1);
 
     await post.save();
+
+    const postLikes = await Post.findById({ _id: id }).populate('likes.user', [
+      'firstname',
+      'lastname',
+      'avatar',
+    ]);
     return res.status(200).json(
       new HttpSuccess(200, 'Post has been unliked.', {
-        postLikes: post.likes,
+        postLikes: postLikes.likes,
       })
     );
   } catch (err) {
@@ -275,7 +289,6 @@ async function addComment(req, res, next) {
   const { id } = req.params;
 
   try {
-    const user = await User.findById(req.user.id).select('-password');
     const post = await Post.findById(id);
 
     const newComment = {
@@ -286,9 +299,16 @@ async function addComment(req, res, next) {
     post.comments.unshift(newComment);
 
     await post.save();
+
+    const postComments = await Post.findById(id).populate('comments.user', [
+      'firstname',
+      'lastname',
+      'avatar',
+    ]);
+
     return res.status(200).json(
       new HttpSuccess(200, 'Comment has been added.', {
-        postComments: post.comments,
+        postComments: postComments.comments,
       })
     );
   } catch (err) {

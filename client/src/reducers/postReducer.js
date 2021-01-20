@@ -1,15 +1,18 @@
 import {
   POST_BEGIN,
   POST_END,
+  COMMENT_BEGIN,
   POST_DETAILS_SUCCESS,
   POST_DETAILS_FAIL,
   POSTS_SUCCESS,
   POSTS_FAIL,
   UPDATE_LIKE_SUCCESS,
+  ADD_COMMENT_SUCCESS,
 } from '../constants/postConstants';
 
 const initialState = {
   loading: false,
+  commentLoading: false,
   postDetails: null,
   posts: [],
 };
@@ -26,6 +29,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
+      };
+    case COMMENT_BEGIN:
+      return {
+        ...state,
+        commentLoading: true,
       };
     case POST_DETAILS_SUCCESS:
       return {
@@ -55,6 +63,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         postDetails: { ...state.postDetails, likes: payload.postLikes },
+      };
+    case ADD_COMMENT_SUCCESS:
+      return {
+        ...state,
+        commentLoading: false,
+        postDetails: { ...state.postDetails, comments: payload.postComments },
       };
     default:
       return {
