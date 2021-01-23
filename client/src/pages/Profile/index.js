@@ -17,7 +17,7 @@ const Profile = () => {
   }, []);
 
   return loading ? (
-    <LoadingScreen loadingMsg='Loading, please wait...' />
+    <LoadingScreen loadingMsg='Loading page, please wait...' />
   ) : (
     <React.Fragment>
       {profileDetails && userDetails && (

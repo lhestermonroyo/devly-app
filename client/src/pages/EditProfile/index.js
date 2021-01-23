@@ -24,7 +24,7 @@ const EditProfile = (props) => {
   }, []);
 
   return loading ? (
-    <LoadingScreen loadingMsg='Fetching data...' />
+    <LoadingScreen loadingMsg='Loading page, please wait...' />
   ) : (
     <Main>
       {profileDetails && (

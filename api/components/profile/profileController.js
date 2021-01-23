@@ -157,7 +157,7 @@ async function getAllProfiles(req, res, next) {
 async function getProfileByUserId(req, res, next) {
   const { user_id } = req.params;
   try {
-    const profile = await Profile.findById({ _id: user_id }).populate('user', [
+    const profile = await Profile.findOne({ user: user_id }).populate('user', [
       'firstname',
       'lastname',
       'avatar',

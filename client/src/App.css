@@ -1,3 +1,7 @@
+.btn-primary {
+  border: 2px solid #1a1a1a;
+}
+
 /* custom alert */
 .alert-danger {
   background: #d9534f;
@@ -117,6 +121,11 @@
   justify-content: center;
 }
 
+.post-profile-subdetails {
+  display: flex;
+  justify-content: center;
+}
+
 .profile-subdetails .text-inline {
   display: inline;
   text-align: center;
@@ -170,8 +179,7 @@
 
 /* custom write a post ui */
 .write-post-btn {
-  font-size: 16px;
-  margin-top: -60px;
+  margin-top: -55px;
 }
 
 .publish-post-btn {
@@ -285,19 +293,22 @@
 }
 
 /* custom post comment */
-.modal-dialog {
-  position: fixed !important;
-  top: 0 !important;
-  right: 0 !important;
+.modal-backdrop.show {
+  opacity: 0;
+}
+.modal-sidebar .modal-dialog {
+  position: fixed;
+  top: 0;
+  right: 0;
   margin: 0px;
 }
 
-.modal-content {
+.modal-sidebar .modal-content {
   width: 500px;
   height: 100vh;
 }
 
-.modal-body {
+.modal-sidebar .modal-body {
   overflow-y: auto;
 }
 
@@ -309,4 +320,15 @@
 
 #post-more-dropdown::after {
   display: none;
+}
+
+.post-profile-subdetails {
+  display: flex;
+  justify-content: left;
+}
+
+.post-profile-subdetails .text-inline {
+  display: inline;
+  text-align: center;
+  margin-right: 16px;
 }

@@ -81,7 +81,8 @@ async function updatePost(req, res, next) {
 
     const postDetails = await Post.findById(id)
       .populate('user', ['firstname', 'lastname', 'avatar'])
-      .populate('user', ['firstname', 'lastname', 'avatar']);
+      .populate('comments.user', ['firstname', 'lastname', 'avatar'])
+      .populate('likes.user', ['firstname', 'lastname', 'avatar']);
 
     return res.status(200).json(
       new HttpSuccess(200, 'Post has been updated.', {
@@ -356,9 +357,16 @@ async function deleteComment(req, res, next) {
     post.comments.splice(removeIndex, 1);
 
     await post.save();
+
+    const postComments = await Post.findById(id).populate('comments.user', [
+      'firstname',
+      'lastname',
+      'avatar',
+    ]);
+
     return res.status(200).json(
       new HttpSuccess(200, 'Comment has been deleted.', {
-        postComments: post.comments,
+        postComments: postComments.comments,
       })
     );
   } catch (err) {

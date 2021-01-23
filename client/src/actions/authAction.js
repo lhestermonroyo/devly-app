@@ -13,6 +13,10 @@ export const authBegin = () => ({
   type: AUTH_BEGIN,
 });
 
+export const authEnd = () => ({
+  type: AUTH_END,
+});
+
 export const authSuccess = (res) => ({
   type: AUTH_SUCCESS,
   payload: res,

@@ -7,7 +7,7 @@ import {
   POSTS_SUCCESS,
   POSTS_FAIL,
   UPDATE_LIKE_SUCCESS,
-  ADD_COMMENT_SUCCESS,
+  COMMENT_SUCCESS,
 } from '../constants/postConstants';
 
 const initialState = {
@@ -64,7 +64,7 @@ export default function (state = initialState, action) {
         ...state,
         postDetails: { ...state.postDetails, likes: payload.postLikes },
       };
-    case ADD_COMMENT_SUCCESS:
+    case COMMENT_SUCCESS:
       return {
         ...state,
         commentLoading: false,

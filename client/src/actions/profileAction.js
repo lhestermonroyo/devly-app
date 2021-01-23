@@ -64,6 +64,24 @@ export const getCurrentProfile = () => async (dispatch) => {
   }
 };
 
+export const getProfileByUserId = (userId) => async (dispatch) => {
+  dispatch(profileBegin());
+
+  try {
+    const res = await axios.get(`/api/profile/${userId}`);
+
+    dispatch(profileDetailsSuccess(res.data));
+  } catch (err) {
+    dispatch(profileDetailsFail());
+    dispatch(
+      alertSet({
+        alertType: 'danger',
+        alertMsg: 'An error occured while fetching data.',
+      })
+    );
+  }
+};
+
 export const updateProfile = (profileData) => async (dispatch) => {
   dispatch(profileBegin());
 

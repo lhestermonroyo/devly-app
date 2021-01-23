@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import Main from '../../components/Main';
 import LoadingScreen from '../../components/LoadingScreen';
-import { Button, NavDropdown, Image } from 'react-bootstrap';
+import { Button, NavDropdown, Image, Row, Col } from 'react-bootstrap';
 import TimeAgo from 'react-timeago';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostDetails } from '../../actions/postAction';
 import PostDetailsFooter from '../../components/PostDetailsFooter';
+import AboutTheAuthor from '../../components/AboutTheAuthor';
 
 const PostDetails = (props) => {
   const { match } = props;
@@ -21,7 +22,7 @@ const PostDetails = (props) => {
   }, []);
 
   return loading ? (
-    <LoadingScreen loadingMsg='Loading, please wait...' />
+    <LoadingScreen loadingMsg='Loading page, please wait...' />
   ) : (
     <Main>
       <Button className='mb-5' href='/dashboard' variant='outline-primary'>
@@ -70,6 +71,7 @@ const PostDetails = (props) => {
             userDetails={userDetails}
           />
           <hr />
+          <AboutTheAuthor user={postDetails.user} />
         </React.Fragment>
       )}
     </Main>

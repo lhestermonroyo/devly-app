@@ -6,7 +6,7 @@ const Loading = (props) => {
 
   return (
     loading && (
-      <Card className='border-light loading-container mb-4'>
+      <Card className='border-light loading-container mb-3'>
         <Card.Body>
           <p className='text-center'>
             <Spinner animation='grow' size='sm' variant='dark' />

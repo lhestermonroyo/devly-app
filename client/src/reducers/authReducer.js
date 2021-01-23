@@ -1,5 +1,6 @@
 import {
   AUTH_BEGIN,
+  AUTH_END,
   AUTH_SUCCESS,
   AUTH_FAIL,
   USER_LOADED,
@@ -19,6 +20,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: true,
+      };
+    case AUTH_END:
+      return {
+        ...state,
+        loading: false,
       };
     case USER_LOADED:
       return {

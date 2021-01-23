@@ -8,24 +8,26 @@ import {
   NavDropdown,
 } from 'react-bootstrap';
 import TimeAgo from 'react-timeago';
-import useForm from '../../customHooks/useForm';
+import Loading from '../Loading';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { commentPost } from '../../actions/postAction';
-import Loading from '../Loading';
+import { addComment, deleteComment } from '../../actions/postAction';
 
 const PostComments = (props) => {
   const { postId, comments, userDetails } = props;
 
   const [commented, setCommented] = useState(false);
   const [showComment, setShowComment] = useState(false);
-  const [value, handleChange] = useForm({
+  const [optionType, setOptionType] = useState({ currentView: '', id: null });
+  const [values, setValues] = useState({
     comment: '',
+    updatedComment: '',
   });
 
-  const { commentLoading } = useSelector((state) => state.post);
+  const { comment, updatedComment } = values;
+  const { currentView, id } = optionType;
 
-  const { comment } = value;
+  const { commentLoading } = useSelector((state) => state.post);
 
   const dispatch = useDispatch();
 
@@ -38,10 +40,34 @@ const PostComments = (props) => {
     setCommented(hasCommented);
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setValues({
+      ...values,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleOptions = (newOptionType, text) => {
+    setValues({
+      ...values,
+      updatedComment: text,
+    });
+    setOptionType(newOptionType);
+  };
+
+  const handleSubmit = (e, submitType) => {
     e.preventDefault();
 
-    dispatch(commentPost(postId, { text: comment }));
+    if (submitType === 'Add') {
+      dispatch(addComment(postId, { text: comment }));
+    } else {
+      dispatch(addComment(postId, { text: updatedComment }));
+    }
+  };
+
+  const handleDelete = (commentId) => {
+    dispatch(deleteComment(postId, commentId));
+    setOptionType({ currentView: '', id: null });
   };
 
   return (
@@ -65,16 +91,16 @@ const PostComments = (props) => {
           )}
         </Button>
       </ButtonGroup>
-      <Modal show={showComment} onHide={() => setShowComment(!showComment)}>
+      <Modal
+        className='modal-sidebar'
+        show={showComment}
+        onHide={() => setShowComment(!showComment)}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Comments ({comments.length})</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Loading
-            loading={commentLoading}
-            loadingMsg='Posting, please wait...'
-          />
-          <Form onSubmit={(e) => handleSubmit(e)}>
+          <Form onSubmit={(e) => handleSubmit(e, 'Add')}>
             <Form.Group>
               <Form.Control
                 placeholder="What's your thought?"
@@ -89,40 +115,116 @@ const PostComments = (props) => {
             <Button type='submit'>Submit Comment</Button>
           </Form>
           <hr />
+          <Loading
+            loading={commentLoading}
+            loadingMsg='Loading comments, please wait...'
+          />
           {comments.length !== 0 ? (
             <React.Fragment>
               {comments.map((comment) => {
                 const { firstname, lastname, avatar, _id } = comment.user;
                 return (
                   <React.Fragment key={_id}>
-                    <div className='mb-5'>
-                      {userDetails._id === _id && (
-                        <React.Fragment>
-                          <NavDropdown
-                            id='post-more-dropdown'
-                            title={
-                              <Button size='sm' variant='link'>
-                                <i className='fa fa-ellipsis-h fa-fw' />
-                              </Button>
-                            }
-                          >
-                            <NavDropdown.Item>Edit</NavDropdown.Item>
-                            <NavDropdown.Item>Delete</NavDropdown.Item>
-                          </NavDropdown>
-                        </React.Fragment>
-                      )}
-                      <div className='post-user mt-2 mb-3'>
-                        <Image src={avatar} roundedCircle />
-                        <p className='text-primary ml-2'>
-                          <strong>
-                            {firstname} {lastname}
-                            <span className='ml-2 mr-2'>&bull;</span>
-                            <TimeAgo date={comment.date} />
-                          </strong>
-                        </p>
+                    {currentView === 'showEdit' && id === comment._id ? (
+                      <Form onSubmit={(e) => handleSubmit(e, 'Update')}>
+                        <Form.Group>
+                          <Form.Label>Update Comment</Form.Label>
+                          <Form.Control
+                            name='updatedComment'
+                            as='textarea'
+                            value={updatedComment}
+                            onChange={handleChange}
+                            required={true}
+                            rows={4}
+                          />
+                        </Form.Group>
+                        <Button className='mr-2'>Save Changes</Button>
+                        <Button
+                          variant='outline-primary'
+                          onClick={() =>
+                            handleOptions({
+                              currentView: '',
+                              id: null,
+                            })
+                          }
+                        >
+                          Cancel
+                        </Button>
+                      </Form>
+                    ) : currentView === 'showDelete' && id === comment._id ? (
+                      <React.Fragment>
+                        <p>Are you sure you want to delete this comment?</p>
+                        <Button
+                          className='mr-2'
+                          onClick={() => handleDelete(comment._id)}
+                        >
+                          Yes
+                        </Button>
+                        <Button
+                          variant='outline-primary'
+                          onClick={() =>
+                            handleOptions({
+                              currentView: '',
+                              id: null,
+                            })
+                          }
+                        >
+                          Cancel
+                        </Button>
+                      </React.Fragment>
+                    ) : (
+                      <div className='mb-5'>
+                        {userDetails._id === _id && (
+                          <React.Fragment>
+                            {!id && (
+                              <NavDropdown
+                                id='post-more-dropdown'
+                                title={
+                                  <Button size='sm' variant='link'>
+                                    <i className='fa fa-ellipsis-h fa-fw' />
+                                  </Button>
+                                }
+                              >
+                                <NavDropdown.Item
+                                  onClick={() =>
+                                    handleOptions(
+                                      {
+                                        currentView: 'showEdit',
+                                        id: comment._id,
+                                      },
+                                      comment.text
+                                    )
+                                  }
+                                >
+                                  Edit
+                                </NavDropdown.Item>
+                                <NavDropdown.Item
+                                  onClick={() =>
+                                    handleOptions({
+                                      currentView: 'showDelete',
+                                      id: comment._id,
+                                    })
+                                  }
+                                >
+                                  Delete
+                                </NavDropdown.Item>
+                              </NavDropdown>
+                            )}
+                          </React.Fragment>
+                        )}
+                        <div className='post-user mt-2 mb-3'>
+                          <Image src={avatar} roundedCircle />
+                          <p className='text-primary ml-2'>
+                            <strong>
+                              {firstname} {lastname}
+                              <span className='ml-2 mr-2'>&bull;</span>
+                              <TimeAgo date={comment.date} />
+                            </strong>
+                          </p>
+                        </div>
+                        <p>{comment.text}</p>
                       </div>
-                      <p>{comment.text}</p>
-                    </div>
+                    )}
                     <hr />
                   </React.Fragment>
                 );

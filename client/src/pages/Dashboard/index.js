@@ -26,7 +26,7 @@ const Dashboard = (props) => {
   }, []);
 
   return profileLoading || postLoading ? (
-    <LoadingScreen loadingMsg='Loading, please wait...' />
+    <LoadingScreen loadingMsg='Loading page, please wait...' />
   ) : (
     <Main>
       <h1>Dashboard</h1>
@@ -52,7 +52,7 @@ const Dashboard = (props) => {
           variant='outline-primary'
           href='/create-post'
         >
-          <i className='fa fa-pen fa-fw' />
+          Write a Post
         </Button>
       )}
       {posts && (

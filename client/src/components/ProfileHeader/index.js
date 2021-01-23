@@ -16,9 +16,9 @@ const ProfileHeader = (props) => {
       <p className='text-center'>
         <Image src={profileDetails.user.avatar} thumbnail roundedCircle />
       </p>
-      <h5 className='text-center text-light'>
+      <h3 className='text-center text-light'>
         {userDetails.firstname} {userDetails.lastname}
-      </h5>
+      </h3>
       <div className='profile-subdetails'>
         <p className='text-inline text-light'>
           <i className='fa fa-map-marker fa-fw text-danger' />{' '}

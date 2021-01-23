@@ -2,13 +2,13 @@ import axios from 'axios';
 import {
   POST_BEGIN,
   POST_END,
+  COMMENT_BEGIN,
   POST_DETAILS_SUCCESS,
   POST_DETAILS_FAIL,
   POSTS_SUCCESS,
   POSTS_FAIL,
   UPDATE_LIKE_SUCCESS,
-  ADD_COMMENT_SUCCESS,
-  COMMENT_BEGIN,
+  COMMENT_SUCCESS,
 } from '../constants/postConstants';
 import { alertSet } from './uiStateAction';
 
@@ -47,8 +47,8 @@ export const updateLikeSuccess = (res) => ({
   payload: res,
 });
 
-export const addCommentSuccess = (res) => ({
-  type: ADD_COMMENT_SUCCESS,
+export const commentSuccess = (res) => ({
+  type: COMMENT_SUCCESS,
   payload: res,
 });
 
@@ -151,7 +151,7 @@ export const unlikePost = (postId) => async (dispatch) => {
   }
 };
 
-export const commentPost = (postId, text) => async (dispatch) => {
+export const addComment = (postId, text) => async (dispatch) => {
   dispatch(commentBegin());
 
   const config = {
@@ -163,13 +163,31 @@ export const commentPost = (postId, text) => async (dispatch) => {
   try {
     const res = await axios.put(`/api/post/comment/${postId}`, text, config);
 
-    dispatch(addCommentSuccess(res.data));
+    dispatch(commentSuccess(res.data));
   } catch (err) {
     dispatch(postDetailsFail());
     dispatch(
       alertSet({
         alertType: 'danger',
-        alertMsg: 'An error occured while commenting post.',
+        alertMsg: 'An error occured while saving the comment.',
+      })
+    );
+  }
+};
+
+export const deleteComment = (postId, commentId) => async (dispatch) => {
+  dispatch(commentBegin());
+
+  try {
+    const res = await axios.delete(`/api/post/comment/${postId}/${commentId}`);
+
+    dispatch(commentSuccess(res.data));
+  } catch (err) {
+    dispatch(postDetailsFail());
+    dispatch(
+      alertSet({
+        alertType: 'danger',
+        alertMsg: 'An error occured while deleting the comment.',
       })
     );
   }

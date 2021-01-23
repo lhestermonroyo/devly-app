@@ -32,7 +32,7 @@ const CreatePost = (props) => {
   };
 
   return loading ? (
-    <LoadingScreen loadingMsg='Loading, please wait...' />
+    <LoadingScreen loadingMsg='Loading page, please wait...' />
   ) : (
     <Main>
       <AlertDismissable />
