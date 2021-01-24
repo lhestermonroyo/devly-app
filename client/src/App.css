@@ -179,11 +179,15 @@
 
 /* custom write a post ui */
 .write-post-btn {
-  margin-top: -55px;
+  margin-top: -58px;
 }
 
 .publish-post-btn {
   margin-top: -90px;
+}
+
+.edit-post-btn {
+  margin-top: -155px;
 }
 
 .post-title-textarea {
@@ -263,7 +267,6 @@
 }
 
 /* custom post details */
-
 .post-details-btn-group {
   margin-top: -4px;
 }

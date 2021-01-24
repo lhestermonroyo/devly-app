@@ -18,7 +18,7 @@ const AboutTheAuthor = (props) => {
 
   return (
     <React.Fragment>
-      <h1 className='mt-5 mb-3'>About the Author</h1>
+      <h1 className='mt-4 mb-5'>About the Author</h1>
       {profileDetails && (
         <Row>
           <Col xs={3} md={3}>

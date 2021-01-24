@@ -25,7 +25,8 @@ router.post(
 
 router.put(
   '/:id',
-  [auth, check('text', 'Text is required.').not().isEmpty()],
+  [auth, check('title', 'Title is required.').not().isEmpty()],
+  [auth, check('content', 'Content is required.').not().isEmpty()],
   updatePost
 );
 

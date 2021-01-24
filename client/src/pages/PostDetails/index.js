@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Main from '../../components/Main';
 import LoadingScreen from '../../components/LoadingScreen';
-import { Button, NavDropdown, Image, Row, Col } from 'react-bootstrap';
+import { Button, NavDropdown, Image } from 'react-bootstrap';
 import TimeAgo from 'react-timeago';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getPostDetails } from '../../actions/postAction';
+import { getPostDetails, deletePost } from '../../actions/postAction';
 import PostDetailsFooter from '../../components/PostDetailsFooter';
 import AboutTheAuthor from '../../components/AboutTheAuthor';
+import DeleteDialog from '../../components/DeleteDialog';
 
 const PostDetails = (props) => {
-  const { match } = props;
+  const { history, match } = props;
+
+  const [showDelete, setShowDelete] = useState(false);
 
   const { postDetails, loading } = useSelector((state) => state.post);
   const { userDetails } = useSelector((state) => state.auth);
@@ -20,6 +23,10 @@ const PostDetails = (props) => {
   useEffect(() => {
     dispatch(getPostDetails(match.params.id));
   }, []);
+
+  const handleDelete = () => {
+    dispatch(deletePost(match.params.id, history));
+  };
 
   return loading ? (
     <LoadingScreen loadingMsg='Loading page, please wait...' />
@@ -33,6 +40,12 @@ const PostDetails = (props) => {
         <React.Fragment>
           {postDetails.user._id === userDetails._id && (
             <React.Fragment>
+              <DeleteDialog
+                showDelete={showDelete}
+                setShowDelete={setShowDelete}
+                deleteMsg={'Are you sure you want to delete this post?'}
+                handleDelete={handleDelete}
+              />
               <NavDropdown
                 alignRight
                 id='post-more-dropdown'
@@ -44,8 +57,12 @@ const PostDetails = (props) => {
               >
                 <NavDropdown.Item>Bookmark this Post</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item>Edit</NavDropdown.Item>
-                <NavDropdown.Item>Delete</NavDropdown.Item>
+                <NavDropdown.Item href={`/edit-post/${match.params.id}`}>
+                  Edit
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={() => setShowDelete(!showDelete)}>
+                  Delete
+                </NavDropdown.Item>
               </NavDropdown>
             </React.Fragment>
           )}

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Main from '../../components/Main';
 import { Button, Form } from 'react-bootstrap';
 import { Editor } from '@tinymce/tinymce-react';
 import LoadingScreen from '../../components/LoadingScreen';
+import AlertDismissable from '../../components/Alert';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { savePost } from '../../actions/postAction';
-import AlertDismissable from '../../components/Alert';
 
 const CreatePost = (props) => {
   const { history } = props;

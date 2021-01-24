@@ -63,14 +63,14 @@ export const savePost = (postData, history) => async (dispatch) => {
 
   try {
     const res = await axios.post('/api/post', postData, config);
-    history.push('/dashboard');
-
     dispatch(
       alertSet({
         alertType: 'success',
         alertMsg: res.data.message.msg,
       })
     );
+
+    history.push('/dashboard');
   } catch (err) {
     console.log(err);
     dispatch(postEnd());
@@ -78,6 +78,53 @@ export const savePost = (postData, history) => async (dispatch) => {
       alertSet({
         alertType: 'danger',
         alertMsg: 'Failed to create post, please try again.',
+      })
+    );
+  }
+};
+
+export const updatePost = (postId, postData, history) => async (dispatch) => {
+  dispatch(postBegin());
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    const res = await axios.put(`/api/post/${postId}`, postData, config);
+    dispatch(
+      alertSet({
+        alertType: 'success',
+        alertMsg: res.data.message.msg,
+      })
+    );
+
+    history.push(`/post/${postId}`);
+  } catch (err) {
+    dispatch(postEnd());
+    dispatch(
+      alertSet({
+        alertType: 'danger',
+        alertMsg: 'Failed to update post, please try again.',
+      })
+    );
+  }
+};
+
+export const deletePost = (postId, history) => async (dispatch) => {
+  dispatch(postBegin());
+
+  try {
+    await axios.delete(`/api/post/${postId}`);
+    history.push('/dashboard');
+  } catch (err) {
+    dispatch(postEnd());
+    dispatch(
+      alertSet({
+        alertType: 'danger',
+        alertMsg: 'Failed to delete post, please try again.',
       })
     );
   }
