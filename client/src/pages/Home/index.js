@@ -30,11 +30,8 @@ const Home = (props) => {
           ea commodo consequat.
         </p>
         <div className='hero-btn-group mt-5'>
-          <Button className='mr-2' variant='outline-light' href='/sign-up'>
+          <Button size='lg' variant='outline-light' href='/sign-in'>
             Get Started
-          </Button>
-          <Button className='ml-2' variant='outline-light' href='/developers'>
-            Check our Developers
           </Button>
         </div>
       </div>

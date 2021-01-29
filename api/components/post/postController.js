@@ -324,6 +324,49 @@ async function addComment(req, res, next) {
  * @param {object} res - The response object
  * @param {function} next - The next function to execute
  */
+async function updateComment(req, res, next) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json(new ValidationError(400, errors.array()));
+  }
+
+  const { id, comment_id } = req.params;
+  const { text } = req.body;
+
+  try {
+    await Post.findOneAndUpdate(
+      { _id: id, 'comments._id': comment_id },
+      {
+        $set: {
+          'comments.$.text': text,
+        },
+      }
+    );
+
+    const postComments = await Post.findById(id).populate('comments.user', [
+      'firstname',
+      'lastname',
+      'avatar',
+    ]);
+
+    return res.status(200).json(
+      new HttpSuccess(200, 'Comment has been updated.', {
+        postComments: postComments.comments,
+      })
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).json(new HttpError(new Date(), 500, 9999, 'Server error.'));
+  }
+}
+
+/**
+ * Controller for request to delete comment on a post
+ * @param {object} req - The request object
+ * @param {object} res - The response object
+ * @param {function} next - The next function to execute
+ */
 async function deleteComment(req, res, next) {
   const { id, comment_id } = req.params;
   try {
@@ -384,5 +427,6 @@ module.exports = {
   likePost,
   unlikePost,
   addComment,
+  updateComment,
   deleteComment,
 };

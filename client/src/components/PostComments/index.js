@@ -11,7 +11,11 @@ import TimeAgo from 'react-timeago';
 import Loading from '../Loading';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { addComment, deleteComment } from '../../actions/postAction';
+import {
+  addComment,
+  deleteComment,
+  updateComment,
+} from '../../actions/postAction';
 
 const PostComments = (props) => {
   const { postId, comments, userDetails } = props;
@@ -20,11 +24,11 @@ const PostComments = (props) => {
   const [showComment, setShowComment] = useState(false);
   const [optionType, setOptionType] = useState({ currentView: '', id: null });
   const [values, setValues] = useState({
-    comment: '',
+    newComment: '',
     updatedComment: '',
   });
 
-  const { comment, updatedComment } = values;
+  const { newComment, updatedComment } = values;
   const { currentView, id } = optionType;
 
   const { commentLoading } = useSelector((state) => state.post);
@@ -59,9 +63,13 @@ const PostComments = (props) => {
     e.preventDefault();
 
     if (submitType === 'Add') {
-      dispatch(addComment(postId, { text: comment }));
-    } else {
-      dispatch(addComment(postId, { text: updatedComment }));
+      dispatch(addComment(postId, { text: newComment }));
+    } else if (submitType === 'Update') {
+      dispatch(updateComment(postId, id, { text: updatedComment }));
+      handleOptions({
+        currentView: '',
+        id: null,
+      });
     }
   };
 
@@ -104,9 +112,9 @@ const PostComments = (props) => {
             <Form.Group>
               <Form.Control
                 placeholder="What's your thought?"
-                name='comment'
+                name='newComment'
                 as='textarea'
-                value={comment}
+                value={newComment}
                 onChange={handleChange}
                 required={true}
                 rows={4}
@@ -138,7 +146,9 @@ const PostComments = (props) => {
                             rows={4}
                           />
                         </Form.Group>
-                        <Button className='mr-2'>Save Changes</Button>
+                        <Button type='submit' className='mr-2'>
+                          Save Changes
+                        </Button>
                         <Button
                           variant='outline-primary'
                           onClick={() =>

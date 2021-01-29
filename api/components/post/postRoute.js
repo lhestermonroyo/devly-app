@@ -3,14 +3,15 @@ const { check } = require('express-validator');
 
 const {
   addPost,
+  updatePost,
   getAllPosts,
   getPostById,
   deletePost,
   likePost,
   unlikePost,
   addComment,
+  updateComment,
   deleteComment,
-  updatePost,
 } = require('./postController');
 const auth = require('../../utils/authUtil');
 
@@ -44,6 +45,12 @@ router.put(
   '/comment/:id',
   [auth, check('text', 'Text is required.').not().isEmpty()],
   addComment
+);
+
+router.put(
+  '/comment/:id/:comment_id',
+  [auth, check('text', 'Text is required.').not().isEmpty()],
+  updateComment
 );
 
 router.delete('/comment/:id/:comment_id', auth, deleteComment);

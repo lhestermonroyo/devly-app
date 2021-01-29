@@ -59,7 +59,7 @@ const Posts = (props) => {
               >
                 <Image src={thumbnail} fluid />
               </div>
-              <div className='post-user mt-2 mb-2'>
+              <div className='post-user mt-3 mb-3'>
                 <Image src={avatar} roundedCircle />
                 <p className='text-primary ml-2'>
                   <strong>

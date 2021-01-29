@@ -32,10 +32,6 @@ const PostDetails = (props) => {
     <LoadingScreen loadingMsg='Loading page, please wait...' />
   ) : (
     <Main>
-      <Button className='mb-5' href='/dashboard' variant='outline-primary'>
-        <i className='fa fa-chevron-left fa-fw' />
-        Back
-      </Button>
       {postDetails && userDetails && (
         <React.Fragment>
           {postDetails.user._id === userDetails._id && (

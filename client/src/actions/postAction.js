@@ -222,6 +222,34 @@ export const addComment = (postId, text) => async (dispatch) => {
   }
 };
 
+export const updateComment = (postId, commentId, text) => async (dispatch) => {
+  dispatch(commentBegin());
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    const res = await axios.put(
+      `/api/post/comment/${postId}/${commentId}`,
+      text,
+      config
+    );
+
+    dispatch(commentSuccess(res.data));
+  } catch (err) {
+    dispatch(postDetailsFail());
+    dispatch(
+      alertSet({
+        alertType: 'danger',
+        alertMsg: 'An error occured while updating the comment.',
+      })
+    );
+  }
+};
+
 export const deleteComment = (postId, commentId) => async (dispatch) => {
   dispatch(commentBegin());
 

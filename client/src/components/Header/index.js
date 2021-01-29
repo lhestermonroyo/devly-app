@@ -6,6 +6,9 @@ import {
   Container,
   Button,
   Image,
+  Form,
+  InputGroup,
+  FormControl,
 } from 'react-bootstrap';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +16,6 @@ import { signOutUser } from '../../actions/authAction';
 
 const Header = (props) => {
   const { history } = props;
-  const { pathname } = history.location;
 
   const dispatch = useDispatch();
 
@@ -27,94 +29,88 @@ const Header = (props) => {
   };
 
   const publicLinks = (
-    <Nav>
-      <Nav.Link className={currentPage === 'Home' && 'active'} href='/'>
-        Home
-      </Nav.Link>
-      <Nav.Link
-        className={currentPage === 'Developers' && 'active'}
-        href='/developers'
-      >
-        Developers
-      </Nav.Link>
-      <Nav.Link
-        className={currentPage === 'Sign In' && 'active'}
-        href='/sign-in'
-      >
-        Sign In
-      </Nav.Link>
-      <Button
-        href='/sign-up'
-        className='nav-link-btn ml-2'
-        variant={currentPage === 'Sign Up' ? 'primary' : 'outline-primary'}
-      >
-        Sign Up
-      </Button>
-    </Nav>
+    <React.Fragment>
+      <Nav className='mr-auto' />
+      <Nav>
+        <Nav.Link
+          className={currentPage === 'Sign In' ? 'active mr-3' : 'mr-3'}
+          href='/sign-in'
+        >
+          Sign In
+        </Nav.Link>
+        <Button
+          href='/sign-up'
+          className={currentPage === 'Sign Up' && 'active'}
+          variant='primary'
+        >
+          Create an Account
+        </Button>
+      </Nav>
+    </React.Fragment>
   );
 
   const privateLinks = (
-    <Nav>
-      <Nav.Link
-        className={currentPage === 'Dashboard' && 'active'}
-        href='/dashboard'
-      >
-        Dashboard
-      </Nav.Link>
-      <Nav.Link
-        className={currentPage === 'Saved Posts' && 'active'}
-        href='/bookmarks'
-      >
-        Bookmarks
-      </Nav.Link>
-      <Nav.Link
-        className={currentPage === 'Notifs' && 'active'}
-        href='/notifications'
-      >
-        Notifs
-      </Nav.Link>
-      <Nav.Link
-        className={currentPage === 'Notifs' && 'active'}
-        href='/notifications'
-      >
-        <i className='fa fa-search fa-fw' style={{ fontSize: 16 }} />
-      </Nav.Link>
-      <NavDropdown
-        alignRight
-        title={
-          <Image
-            className='nav-avatar'
-            src={userDetails && userDetails.avatar}
-            roundedCircle
-            thumbnail
-          />
-        }
-        id='nav-dropdown'
-      >
-        <NavDropdown.Item href='/profile'>
-          {userDetails && (
-            <React.Fragment>
-              <p className='text-primary nav-name-content'>
-                <strong>
-                  {userDetails.firstname} {userDetails.lastname}
-                </strong>
-              </p>
-              <span className='text-muted'>{userDetails.email}</span>
-            </React.Fragment>
-          )}
-        </NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href='/create-post'>Write a post</NavDropdown.Item>
-        <NavDropdown.Item href='/posts'>Posts</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href='/account-settings'>
-          Account Settings
-        </NavDropdown.Item>
-        <NavDropdown.Item onClick={() => handleLogOut()}>
-          Log Out
-        </NavDropdown.Item>
-      </NavDropdown>
-    </Nav>
+    <React.Fragment>
+      <Nav className='mr-auto'>
+        <Form inline>
+          <InputGroup>
+            <InputGroup.Text>
+              <i className='fas fa-search fa-fw' />
+            </InputGroup.Text>
+            <FormControl placeholder='Search...' className='input-search' />
+          </InputGroup>
+        </Form>
+      </Nav>
+      <Nav>
+        <Nav.Link
+          className={currentPage === 'Notifs' && 'active'}
+          href='/notifications'
+        >
+          <i className='fas fa-bell fa-fw nav-link-icon' />
+        </Nav.Link>
+        <Nav.Link
+          className={currentPage === 'Saved Posts' && 'active'}
+          href='/bookmarks'
+        >
+          <i className='fas fa-bookmark fa-fw nav-link-icon' />
+        </Nav.Link>
+        <NavDropdown
+          alignRight
+          title={
+            <Image
+              className='nav-avatar'
+              src={userDetails && userDetails.avatar}
+              roundedCircle
+              thumbnail
+            />
+          }
+          id='nav-dropdown'
+        >
+          <NavDropdown.Item href='/profile'>
+            {userDetails && (
+              <React.Fragment>
+                <p className='nav-name-content'>
+                  <strong>
+                    {userDetails.firstname} {userDetails.lastname}
+                  </strong>
+                </p>
+                <span className='text-muted'>{userDetails.email}</span>
+              </React.Fragment>
+            )}
+          </NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item href='/create-post'>Write a post</NavDropdown.Item>
+          <NavDropdown.Item href='/posts'>Posts</NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item href='/account-settings'>
+            Account Settings
+          </NavDropdown.Item>
+          <NavDropdown.Item onClick={() => handleLogOut()}>
+            Log Out
+          </NavDropdown.Item>
+        </NavDropdown>
+      </Nav>
+    </React.Fragment>
   );
 
   return (
@@ -127,12 +123,14 @@ const Header = (props) => {
         fixed='top'
       >
         <Container>
-          <Navbar.Brand href='/' className='nav-logo'>
+          <Navbar.Brand
+            href={isAuthenticated ? '/dashboard' : '/'}
+            className='nav-logo'
+          >
             <i className='fa fa-code fa-fw' /> DEVLY
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />
           <Navbar.Collapse id='responsive-navbar-nav'>
-            <Nav className='mr-auto'></Nav>
             {!loading && (
               <React.Fragment>
                 {isAuthenticated ? privateLinks : publicLinks}
