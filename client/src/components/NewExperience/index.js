@@ -50,7 +50,7 @@ const NewExperience = () => {
 
   return (
     <React.Fragment>
-      <h1 className='mb-5 mt-5'>New Experience</h1>
+      <h3 className='mb-3 mt-5'>New Experience</h3>
       <AlertDismissable />
       <Form className='mb-4' onSubmit={(e) => handleSubmit(e)}>
         <Form.Group>
@@ -135,7 +135,7 @@ const NewExperience = () => {
             onChange={handleChange}
           />
         </Form.Group>
-        <Button variant='primary' type='submit'>
+        <Button size='lg' variant='primary' type='submit'>
           Add Experience
         </Button>
       </Form>

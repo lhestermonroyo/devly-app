@@ -27,61 +27,62 @@ const EditProfile = (props) => {
     <LoadingScreen loadingMsg='Loading page, please wait...' />
   ) : (
     <Main>
-      {profileDetails && (
-        <React.Fragment>
-          <Button className='mb-3' href='/profile' variant='outline-primary'>
-            <i className='fa fa-chevron-left fa-fw' />
-            Back
-          </Button>
-          <Nav
-            className='profile-details-nav'
-            activeKey={key}
-            onSelect={(key) => setKey(key)}
+      <React.Fragment>
+        <h1>
+          <Button
+            className='mr-3'
+            style={{ marginTop: -6 }}
+            href='profile'
+            variant='outline-primary'
           >
-            <Nav.Item>
-              <Nav.Link
-                className={
-                  key === '#profile-details'
-                    ? 'nav-active text-primary'
-                    : 'text-muted'
-                }
-                eventKey='#profile-details'
-              >
-                Profile Details
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link
-                className={
-                  key === '#experience'
-                    ? 'nav-active text-primary'
-                    : 'text-muted'
-                }
-                eventKey='#experience'
-              >
-                Experience
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link
-                className={
-                  key === '#education'
-                    ? 'nav-active text-primary'
-                    : 'text-muted'
-                }
-                eventKey='#education'
-              >
-                Education
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
-          {key === '#profile-details' && (
-            <EditProfileDetails profileDetails={profileDetails} />
-          )}
-          {key === '#experience' && <NewExperience />}
-          {key === '#education' && <NewEducation />}
-        </React.Fragment>
-      )}
+            <i className='fa fa-chevron-left fa-fw' /> Back
+          </Button>
+          Edit Profile
+        </h1>
+        <Nav
+          className='profile-details-nav mt-5'
+          activeKey={key}
+          onSelect={(key) => setKey(key)}
+        >
+          <Nav.Item>
+            <Nav.Link
+              className={
+                key === '#profile-details'
+                  ? 'nav-active text-primary'
+                  : 'text-muted'
+              }
+              eventKey='#profile-details'
+            >
+              Profile Details
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              className={
+                key === '#experience' ? 'nav-active text-primary' : 'text-muted'
+              }
+              eventKey='#experience'
+            >
+              Experience
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              className={
+                key === '#education' ? 'nav-active text-primary' : 'text-muted'
+              }
+              eventKey='#education'
+            >
+              Education
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+        {key === '#profile-details' && (
+          <EditProfileDetails profileDetails={profileDetails} />
+        )}
+        {key === '#experience' && <NewExperience />}
+        {key === '#education' && <NewEducation />}
+      </React.Fragment>
     </Main>
   );
 };

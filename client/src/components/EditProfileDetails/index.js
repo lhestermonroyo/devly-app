@@ -63,12 +63,14 @@ const EditProfileDetails = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    console.log(values);
+
     dispatch(updateProfile(values));
   };
 
   return (
     <React.Fragment>
-      <h1 className='mb-5 mt-5'>Edit Main Details</h1>
+      <h3 className='mb-3 mt-5'>Edit Main Details</h3>
       <AlertDismissable />
       <Form className='mb-4' onSubmit={(e) => handleSubmit(e)}>
         <Form.Group>
@@ -126,8 +128,7 @@ const EditProfileDetails = (props) => {
             // required={true}
           />
         </Form.Group>
-        <hr />
-        <h3 className='mb-3'>Socials</h3>
+        <h3 className='mt-3 mb-4'>Socials</h3>
         <Form.Group>
           <InputGroup>
             <InputGroup.Prepend>
@@ -146,7 +147,7 @@ const EditProfileDetails = (props) => {
           <InputGroup>
             <InputGroup.Prepend>
               <InputGroup.Text>
-                <i className='fa fa-facebook-square fa-fw' />
+                <i className='fab fa-facebook fa-fw' />
               </InputGroup.Text>
             </InputGroup.Prepend>
             <Form.Control
@@ -162,7 +163,7 @@ const EditProfileDetails = (props) => {
           <InputGroup>
             <InputGroup.Prepend>
               <InputGroup.Text>
-                <i className='fa fa-linkedin-square fa-fw' />
+                <i className='fab fa-linkedin fa-fw' />
               </InputGroup.Text>
             </InputGroup.Prepend>
             <Form.Control
@@ -178,7 +179,7 @@ const EditProfileDetails = (props) => {
           <InputGroup>
             <InputGroup.Prepend>
               <InputGroup.Text>
-                <i className='fa fa-twitter-square fa-fw' />
+                <i className='fab fa-twitter fa-fw' />
               </InputGroup.Text>
             </InputGroup.Prepend>
             <Form.Control
@@ -194,7 +195,7 @@ const EditProfileDetails = (props) => {
           <InputGroup>
             <InputGroup.Prepend>
               <InputGroup.Text>
-                <i className='fa fa-youtube-square fa-fw' />
+                <i className='fab fa-youtube fa-fw' />
               </InputGroup.Text>
             </InputGroup.Prepend>
             <Form.Control
@@ -206,7 +207,7 @@ const EditProfileDetails = (props) => {
             />
           </InputGroup>
         </Form.Group>
-        <Button variant='primary' type='submit'>
+        <Button size='lg' variant='primary' type='submit'>
           Save Changes
         </Button>
       </Form>

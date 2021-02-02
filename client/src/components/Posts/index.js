@@ -32,12 +32,10 @@ const Posts = (props) => {
                   <Col xs={6} md={6}>
                     <div className='post-user mt-2 mb-3'>
                       <Image src={avatar} roundedCircle />
-                      <p className='text-primary ml-2'>
-                        <strong>
-                          {firstname} {lastname}
-                          <span className='ml-2 mr-2'>&bull;</span>
-                          <TimeAgo date={date} />
-                        </strong>
+                      <p className='text-muted ml-2'>
+                        {firstname} {lastname}
+                        <span className='ml-2 mr-2'>&bull;</span>
+                        <TimeAgo date={date} />
                       </p>
                     </div>
                     <h3 className='mb-3'>{title}</h3>
@@ -61,12 +59,10 @@ const Posts = (props) => {
               </div>
               <div className='post-user mt-3 mb-3'>
                 <Image src={avatar} roundedCircle />
-                <p className='text-primary ml-2'>
-                  <strong>
-                    {firstname} {lastname}
-                    <span className='ml-2 mr-2'>&bull;</span>
-                    <TimeAgo date={date} />
-                  </strong>
+                <p className='text-muted ml-2'>
+                  {firstname} {lastname}
+                  <span className='ml-2 mr-2'>&bull;</span>
+                  <TimeAgo date={date} />
                 </p>
               </div>
               <h4 className='mb-3'>{title}</h4>

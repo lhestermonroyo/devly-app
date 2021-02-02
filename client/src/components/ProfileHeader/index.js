@@ -1,18 +1,34 @@
 import React from 'react';
-import { Container, Button, Image, Badge } from 'react-bootstrap';
+import {
+  Container,
+  Button,
+  Image,
+  Badge,
+  Dropdown,
+  ButtonGroup,
+} from 'react-bootstrap';
 
 const ProfileHeader = (props) => {
   const { profileDetails, userDetails } = props;
 
+  console.log(profileDetails.user.cover);
+
   return (
     <Container className='profile-container'>
-      <Button
-        className='profile-edit-btn'
-        variant='outline-light'
-        href='/edit-profile#profile-details'
-      >
-        Edit Profile
-      </Button>
+      <Dropdown className='profile-edit-btn' as={ButtonGroup}>
+        <Button variant='outline-light' href='/edit-profile#profile-details'>
+          Edit Profile
+        </Button>
+        <Dropdown.Toggle
+          split
+          variant='outline-light'
+          id='dropdown-split-basic'
+        />
+        <Dropdown.Menu alignRight>
+          <Dropdown.Item href='#/action-1'>Change Avatar</Dropdown.Item>
+          <Dropdown.Item href='#/action-2'>Change Cover Picture</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
       <p className='text-center'>
         <Image src={profileDetails.user.avatar} thumbnail roundedCircle />
       </p>

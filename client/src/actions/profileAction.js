@@ -55,12 +55,6 @@ export const getCurrentProfile = () => async (dispatch) => {
     dispatch(profileDetailsSuccess(res.data));
   } catch (err) {
     dispatch(profileDetailsFail());
-    dispatch(
-      alertSet({
-        alertType: 'danger',
-        alertMsg: 'An error occured while fetching data.',
-      })
-    );
   }
 };
 

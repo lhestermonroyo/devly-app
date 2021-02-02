@@ -113,16 +113,23 @@ const SignUp = (props) => {
                 required={true}
               />
             </Form.Group>
-            <Button variant='primary' type='submit' className='btn-block'>
+            <Button
+              size='lg'
+              variant='primary'
+              type='submit'
+              className='btn-block'
+            >
               Sign Up
             </Button>
           </Form>
           <hr />
+          <p className='text-center'>Already have an account?</p>
           <Button
+            size='lg'
             href='/sign-in'
             variant='outline-primary'
             type='submit'
-            className='btn-block mt-4'
+            className='btn-block mt-3'
           >
             Sign In
           </Button>

@@ -18,7 +18,7 @@ const AboutTheAuthor = (props) => {
 
   return (
     <React.Fragment>
-      <h1 className='mt-4 mb-5'>About the Author</h1>
+      <h3 className='mt-4 mb-5 text-center'>About the Author</h3>
       {profileDetails && (
         <Row>
           <Col xs={3} md={3}>
@@ -51,9 +51,9 @@ const AboutTheAuthor = (props) => {
               <p>{profileDetails.bio}</p>
             </div>
             <Button variant='primary' className='mr-2'>
-              View Profile
+              Follow
             </Button>
-            <Button variant='outline-primary'>Posts</Button>
+            <Button variant='outline-primary'>View Profile</Button>
           </Col>
         </Row>
       )}

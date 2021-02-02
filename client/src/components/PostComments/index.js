@@ -190,7 +190,11 @@ const PostComments = (props) => {
                               <NavDropdown
                                 id='post-more-dropdown'
                                 title={
-                                  <Button size='sm' variant='link'>
+                                  <Button
+                                    size='sm'
+                                    variant='link'
+                                    className='text-muted'
+                                  >
                                     <i className='fa fa-ellipsis-h fa-fw' />
                                   </Button>
                                 }
@@ -224,12 +228,10 @@ const PostComments = (props) => {
                         )}
                         <div className='post-user mt-2 mb-3'>
                           <Image src={avatar} roundedCircle />
-                          <p className='text-primary ml-2'>
-                            <strong>
-                              {firstname} {lastname}
-                              <span className='ml-2 mr-2'>&bull;</span>
-                              <TimeAgo date={comment.date} />
-                            </strong>
+                          <p className='text-muted ml-2'>
+                            {firstname} {lastname}
+                            <span className='ml-2 mr-2'>&bull;</span>
+                            <TimeAgo date={comment.date} />
                           </p>
                         </div>
                         <p>{comment.text}</p>

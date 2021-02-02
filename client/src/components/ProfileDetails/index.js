@@ -123,7 +123,7 @@ const ProfileDetails = (props) => {
                       <h3 className='mt-2'>{item.fieldofstudy}</h3>
                       <div className='profile-details-subdetails'>
                         <p className='text-inline text-muted'>
-                          <i className='fa fa-building fa-fw' /> {item.school}
+                          <i className='fa fa-school fa-fw' /> {item.school}
                         </p>
                         <p className='text-inline text-muted'>
                           <i className='fa fa-graduation-cap fa-fw' />{' '}
@@ -149,14 +149,14 @@ const ProfileDetails = (props) => {
         {key === '#socials' && (
           <React.Fragment>
             <h1>Socials and Contact Infos</h1>
-            <ListGroup className='mt-3'>
+            <ListGroup className='mt-5'>
               {userDetails.email && (
                 <ListGroup.Item>
                   <Button
-                    className='float-right'
+                    className='float-right mt-1'
                     href={`mailto:${userDetails.email}`}
                   >
-                    <i className='fa fa-external-link fa-fw' />
+                    <i className='fa fa-external-link-alt fa-fw' />
                   </Button>
                   <div className='profile-details-socials mt-2'>
                     <p className='text-inline mr-4'>
@@ -168,12 +168,12 @@ const ProfileDetails = (props) => {
               )}
               {social.facebook && (
                 <ListGroup.Item>
-                  <Button className='float-right' href={social.facebook}>
-                    <i className='fa fa-external-link fa-fw' />
+                  <Button className='float-right mt-1' href={social.facebook}>
+                    <i className='fa fa-external-link-alt fa-fw' />
                   </Button>
                   <div className='profile-details-socials mt-2'>
                     <p className='text-inline mr-4'>
-                      <i className='fa fa-facebook-square fa-fw fa-2x' />
+                      <i className='fab fa-facebook fa-fw fa-2x' />
                     </p>
                     <p className='text-inline'>{social.facebook}</p>
                   </div>
@@ -181,12 +181,12 @@ const ProfileDetails = (props) => {
               )}
               {social.linkedin && (
                 <ListGroup.Item>
-                  <Button className='float-right' href={social.linkedin}>
-                    <i className='fa fa-external-link fa-fw' />
+                  <Button className='float-right mt-1' href={social.linkedin}>
+                    <i className='fa fa-external-link-alt fa-fw' />
                   </Button>
                   <div className='profile-details-socials mt-2'>
                     <p className='text-inline mr-4'>
-                      <i className='fa fa-linkedin-square fa-fw fa-2x' />
+                      <i className='fab fa-linkedin fa-fw fa-2x' />
                     </p>
                     <p className='text-inline'>{social.linkedin}</p>
                   </div>
@@ -194,12 +194,12 @@ const ProfileDetails = (props) => {
               )}
               {social.twitter && (
                 <ListGroup.Item>
-                  <Button className='float-right' href={social.twitter}>
-                    <i className='fa fa-external-link fa-fw' />
+                  <Button className='float-right mt-1' href={social.twitter}>
+                    <i className='fa fa-external-link-alt fa-fw' />
                   </Button>
                   <div className='profile-details-socials mt-2'>
                     <p className='text-inline mr-4'>
-                      <i className='fa fa-twitter-square fa-fw fa-2x' />
+                      <i className='fab fa-twitter fa-fw fa-2x' />
                     </p>
                     <p className='text-inline'>{social.twitter}</p>
                   </div>
@@ -207,12 +207,12 @@ const ProfileDetails = (props) => {
               )}
               {social.youtube && (
                 <ListGroup.Item>
-                  <Button className='float-right' href={social.youtube}>
-                    <i className='fa fa-external-link fa-fw' />
+                  <Button className='float-right mt-1' href={social.youtube}>
+                    <i className='fa fa-external-link-alt fa-fw' />
                   </Button>
                   <div className='profile-details-socials mt-2'>
                     <p className='text-inline mr-4'>
-                      <i className='fa fa-youtube-square fa-fw fa-2x' />
+                      <i className='fab fa-youtube fa-fw fa-2x' />
                     </p>
                     <p className='text-inline'>{social.youtube}</p>
                   </div>

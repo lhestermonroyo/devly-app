@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Main from '../../components/Main';
 import { Button, Form } from 'react-bootstrap';
 import { Editor } from '@tinymce/tinymce-react';
@@ -7,6 +7,7 @@ import AlertDismissable from '../../components/Alert';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { savePost } from '../../actions/postAction';
+import { getCurrentPage } from '../../actions/uiStateAction';
 
 const CreatePost = (props) => {
   const { history } = props;
@@ -15,6 +16,10 @@ const CreatePost = (props) => {
 
   const { loading } = useSelector((state) => state.post);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCurrentPage('Create Post'));
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +43,11 @@ const CreatePost = (props) => {
       <AlertDismissable />
       <h1>Write a Post</h1>
       <Form onSubmit={(e) => handleSubmit(e)}>
-        <Button type='submit' className='float-right publish-post-btn'>
+        <Button
+          size='lg'
+          type='submit'
+          className='float-right publish-post-btn'
+        >
           Publish Post
         </Button>
         <Form.Group className='mt-5'>

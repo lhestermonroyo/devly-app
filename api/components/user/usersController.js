@@ -31,13 +31,11 @@ async function createUser(req, res, next) {
     let user = await User.findOne({ email });
 
     if (user) {
-      return res
-        .status(400)
-        .json(
-          new ValidationError(400, {
-            errors: [{ msg: 'User already exists.' }],
-          })
-        );
+      return res.status(400).json(
+        new ValidationError(400, {
+          errors: [{ msg: 'User already exists.' }],
+        })
+      );
     }
 
     const avatar = gravatar.url(email, {
@@ -46,12 +44,15 @@ async function createUser(req, res, next) {
       d: 'mm',
     });
 
+    const cover = '../';
+
     user = new User({
       firstname,
       lastname,
       email,
       password,
       avatar,
+      cover,
     });
 
     const salt = await bcrypt.genSalt(10);
@@ -137,13 +138,11 @@ async function updateUserPassword(req, res, next) {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {
-      return res
-        .status(400)
-        .json(
-          new ValidationError(400, {
-            errors: [{ msg: 'Password already used.' }],
-          })
-        );
+      return res.status(400).json(
+        new ValidationError(400, {
+          errors: [{ msg: 'Password already used.' }],
+        })
+      );
     }
 
     const salt = await bcrypt.genSalt(10);

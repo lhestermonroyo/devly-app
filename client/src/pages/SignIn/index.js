@@ -72,16 +72,23 @@ const SignIn = (props) => {
             <Form.Group controlId='formBasicCheckbox'>
               <Form.Check type='checkbox' label='Check me out' />
             </Form.Group>
-            <Button variant='primary' type='submit' className='btn-block'>
+            <Button
+              size='lg'
+              variant='primary'
+              type='submit'
+              className='btn-block'
+            >
               Sign In
             </Button>
           </Form>
           <hr />
+          <p className='text-center'>Don't have an account yet?</p>
           <Button
+            size='lg'
             href='/sign-up'
             variant='outline-primary'
             type='submit'
-            className='btn-block mt-4'
+            className='btn-block mt-3'
           >
             Create an Account
           </Button>

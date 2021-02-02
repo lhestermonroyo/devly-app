@@ -22,7 +22,7 @@ async function getOwnProfile(req, res, next) {
   try {
     const profile = await Profile.findOne({
       user: req.user.id,
-    }).populate('user', ['email', 'avatar']);
+    }).populate('user', ['email', 'avatar', 'cover']);
 
     if (!profile) {
       return res.status(404).json(

@@ -25,15 +25,17 @@ const EditPost = (props) => {
       {postDetails && (
         <React.Fragment>
           <AlertDismissable />
-          <Button
-            className='mb-3'
-            href={`/post/${match.params.id}`}
-            variant='outline-primary'
-          >
-            <i className='fa fa-chevron-left fa-fw' />
-            Back
-          </Button>
-          <h1>Edit Post</h1>
+          <h1>
+            <Button
+              className='mr-3'
+              style={{ marginTop: -6 }}
+              href={`/post/${match.params.id}`}
+              variant='outline-primary'
+            >
+              <i className='fa fa-chevron-left fa-fw' /> Back
+            </Button>
+            Edit Post
+          </h1>
           <EditPostForm postDetails={postDetails} history={history} />
         </React.Fragment>
       )}
@@ -71,9 +73,10 @@ const EditPostForm = (props) => {
   return (
     <Form onSubmit={(e) => handleSubmit(e)}>
       <Button
+        size='lg'
         type='submit'
         variant='primary'
-        className='float-right edit-post-btn'
+        className='float-right publish-post-btn'
       >
         Save Changes
       </Button>

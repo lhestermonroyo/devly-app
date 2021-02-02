@@ -4,6 +4,10 @@ p {
   font-size: 16px !important;
 }
 
+.btn {
+  border-radius: 6px !important;
+}
+
 /* custom alert */
 .alert-danger {
   background: #d9534f;
@@ -49,12 +53,19 @@ p {
   margin: 0 0.3em;
 }
 
+.input-group {
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 4px !important;
+}
+
 .input-group-text {
-  background: #f7f7f9;
+  background: none;
+  border: none !important;
   padding: 12px;
 }
 
 .input-search {
+  border: none !important;
   width: 150px !important;
   -webkit-transition: width 0.4s ease-in-out;
   transition: width 0.4s ease-in-out;
@@ -119,7 +130,7 @@ p {
 
 /* profile custom ui */
 .profile-bg {
-  padding-top: 12em;
+  padding-top: 5.5em;
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url('./assets/landing-bg.jpg') no-repeat;
   background-size: 100% 100%;
@@ -127,7 +138,7 @@ p {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  height: 775px;
+  height: 730px;
   position: relative;
 }
 
@@ -165,7 +176,7 @@ p {
 
 .profile-edit-btn {
   position: absolute;
-  right: 0;
+  left: 87%;
 }
 
 .profile-details-nav {
@@ -174,7 +185,7 @@ p {
 
 .nav-active {
   padding-bottom: 12px;
-  border-bottom: 2px solid #1a1a1a;
+  border-bottom: none;
 }
 
 .profile-details-subdetails {
@@ -202,7 +213,7 @@ p {
 }
 
 .publish-post-btn {
-  margin-top: -90px;
+  margin-top: -100px;
 }
 
 .edit-post-btn {
@@ -211,35 +222,32 @@ p {
 
 .post-title-textarea {
   resize: unset;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 2.6575rem;
+  font-weight: 700;
 }
 
 .post-title-textarea:focus {
-  border: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
   box-shadow: none !important;
 }
 
 .tox-tinymce {
-  border: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 0.25rem !important;
 }
 
 .tox-editor-header {
-  border: 1px solid #ccc !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1) !important;
 }
-
-.tox-statusbar {
+/* .tox-statusbar {
   border: 1px solid #ccc !important;
-}
+} */
 
 .tox .tox-edit-area__iframe {
-  color: #55595c;
-  background-color: #f7f7f9 !important;
-  background-clip: padding-box;
+  color: #495057 !important;
   border: none !important;
-  border-radius: 0;
+  background-clip: padding-box;
   font-family: 'Josefin Sans', sans-serif;
   line-height: 1.4;
 }

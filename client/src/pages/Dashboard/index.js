@@ -42,21 +42,15 @@ const Dashboard = (props) => {
               Looks like that you didn't setup your profile yet. Edit your
               profile to get recognized.
             </p>
-            <Button href='/edit-profile'>Edit Profile</Button>
+            <Button href='/edit-profile#profile-details'>Edit Profile</Button>
           </Card.Body>
         </Card>
       ) : (
-        <Button
-          title='Write a Post'
-          className='float-right write-post-btn'
-          variant='outline-primary'
-          href='/create-post'
-        >
-          Write a Post
-        </Button>
-      )}
-      {posts && (
-        <Posts posts={posts} userDetails={userDetails} history={history} />
+        <React.Fragment>
+          {posts && (
+            <Posts posts={posts} userDetails={userDetails} history={history} />
+          )}
+        </React.Fragment>
       )}
     </Main>
   );

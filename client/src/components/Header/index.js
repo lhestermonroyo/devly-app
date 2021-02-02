@@ -62,8 +62,14 @@ const Header = (props) => {
         </Form>
       </Nav>
       <Nav>
+        <Button
+          className={currentPage === 'Create Post' && 'active'}
+          href='/create-post'
+        >
+          <i class='fa fa-plus fa-fw' /> Write a Post
+        </Button>
         <Nav.Link
-          className={currentPage === 'Notifs' && 'active'}
+          className={currentPage === 'Notifs' ? 'active ml-3' : 'ml-3'}
           href='/notifications'
         >
           <i className='fas fa-bell fa-fw nav-link-icon' />

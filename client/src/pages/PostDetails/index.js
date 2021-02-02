@@ -46,13 +46,15 @@ const PostDetails = (props) => {
                 alignRight
                 id='post-more-dropdown'
                 title={
-                  <Button variant='link' style={{ fontSize: 16 }}>
-                    <i className='fa fa-ellipsis-h fa-fw' />
+                  <Button
+                    variant='link'
+                    className='text-muted mt-2'
+                    style={{ fontSize: 16 }}
+                  >
+                    <i className='fa fa-ellipsis-v fa-fw' />
                   </Button>
                 }
               >
-                <NavDropdown.Item>Bookmark this Post</NavDropdown.Item>
-                <NavDropdown.Divider />
                 <NavDropdown.Item href={`/edit-post/${match.params.id}`}>
                   Edit
                 </NavDropdown.Item>
@@ -66,12 +68,12 @@ const PostDetails = (props) => {
             <h1>{postDetails.title}</h1>
             <div className='post-user mt-2 mb-5'>
               <Image src={postDetails.user.avatar} roundedCircle />
-              <p className='text-primary ml-2'>
-                <strong>
-                  {postDetails.user.firstname} {postDetails.user.lastname}
-                  <span className='ml-2 mr-2'>&bull;</span>
-                  <TimeAgo date={postDetails.date} />
-                </strong>
+              <p className='text-muted ml-2'>
+                {postDetails.user.firstname} {postDetails.user.lastname}
+                <span className='ml-2 mr-2'>&bull;</span>
+                <TimeAgo date={postDetails.date} />
+                <span className='ml-2 mr-2'>&bull;</span>
+                <Button>Follow</Button>
               </p>
             </div>
             <div
