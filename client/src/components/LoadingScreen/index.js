@@ -9,9 +9,7 @@ const LoadingScreen = (props) => {
       <p className='text-center spinner'>
         <Spinner animation='grow' variant='primary' />
       </p>
-      <p className='text-center lead' style={{ marginBottom: -4 }}>
-        {loadingMsg}
-      </p>
+      <p className='text-center lead'>{loadingMsg}</p>
     </div>
   );
 };

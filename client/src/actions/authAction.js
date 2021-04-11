@@ -1,6 +1,8 @@
 import {
   AUTH_BEGIN,
   AUTH_END,
+  AUTH_FORM_BEGIN,
+  AUTH_FORM_END,
   AUTH_SUCCESS,
   AUTH_FAIL,
   USER_LOADED,
@@ -15,6 +17,14 @@ export const authBegin = () => ({
 
 export const authEnd = () => ({
   type: AUTH_END,
+});
+
+export const authFormBegin = () => ({
+  type: AUTH_FORM_BEGIN,
+});
+
+export const authFormEnd = () => ({
+  type: AUTH_FORM_END,
 });
 
 export const authSuccess = (res) => ({
@@ -32,7 +42,7 @@ export const userLoaded = (res) => ({
 });
 
 export const signUpUser = (userData) => async (dispatch) => {
-  dispatch(authBegin());
+  dispatch(authFormBegin());
 
   const config = {
     headers: {
@@ -50,6 +60,7 @@ export const signUpUser = (userData) => async (dispatch) => {
         alertMsg: 'You have created an account successfully.',
       })
     );
+    dispatch(authFormEnd());
   } catch (err) {
     console.log('Error', err);
     dispatch(authFail());
@@ -59,11 +70,12 @@ export const signUpUser = (userData) => async (dispatch) => {
         alertMsg: 'An error occured while signing up.',
       })
     );
+    dispatch(authFormEnd());
   }
 };
 
 export const signInUser = (userData) => async (dispatch) => {
-  dispatch(authBegin());
+  dispatch(authFormBegin());
 
   const config = {
     headers: {
@@ -76,6 +88,7 @@ export const signInUser = (userData) => async (dispatch) => {
 
     dispatch(authSuccess(res.data));
     dispatch(loadUser());
+    dispatch(authFormEnd());
   } catch (err) {
     console.log('Error', err.errors);
     dispatch(authFail());
@@ -85,6 +98,7 @@ export const signInUser = (userData) => async (dispatch) => {
         alertMsg: 'Username and password incorrect.',
       })
     );
+    dispatch(authFormEnd());
   }
 };
 
@@ -104,7 +118,9 @@ export const loadUser = () => async (dispatch) => {
     const res = await axios.get('/api/auth');
 
     dispatch(userLoaded(res.data));
+    dispatch(authEnd());
   } catch (err) {
     dispatch(authFail());
+    dispatch(authEnd());
   }
 };

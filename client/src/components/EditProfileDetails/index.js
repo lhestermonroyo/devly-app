@@ -1,55 +1,62 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button, InputGroup } from 'react-bootstrap';
+import LoadingForm from '../LoadingForm';
 // Redux
 import { useDispatch } from 'react-redux';
 import { updateProfile } from '../../actions/profileAction';
 import AlertDismissable from '../Alert';
 
 const EditProfileDetails = (props) => {
-  const { profileDetails } = props;
+  const { profileDetails, loadingForm } = props;
   const [values, setValues] = useState({
-    location: '',
-    website: '',
     company: '',
-    status: '',
     bio: '',
+    status: '',
+    website: '',
+    mobilenumber: '',
+    phonenumber: '',
+    location: '',
     skills: '',
-    githubusername: '',
     facebook: '',
     linkedin: '',
     twitter: '',
     youtube: '',
+    githubusername: '',
   });
 
   const {
-    location,
-    website,
     company,
-    status,
     bio,
+    status,
+    website,
+    mobilenumber,
+    phonenumber,
+    location,
     skills,
-    githubusername,
     facebook,
     linkedin,
     twitter,
     youtube,
+    githubusername,
   } = values;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     setValues({
-      location: !profileDetails ? '' : profileDetails.location,
       company: !profileDetails ? '' : profileDetails.company,
-      website: !profileDetails ? '' : profileDetails.website,
-      status: !profileDetails ? '' : profileDetails.status,
       bio: !profileDetails ? '' : profileDetails.bio,
+      status: !profileDetails ? '' : profileDetails.status,
+      website: !profileDetails ? '' : profileDetails.website,
+      mobilenumber: !profileDetails ? '' : profileDetails.mobilenumber,
+      phonenumber: !profileDetails ? '' : profileDetails.phonenumber,
+      location: !profileDetails ? '' : profileDetails.location,
       skills: !profileDetails ? '' : profileDetails.skills.join(', '),
-      githubusername: !profileDetails ? '' : profileDetails.githubusername,
       facebook: !profileDetails ? '' : profileDetails.social.facebook,
       linkedin: !profileDetails ? '' : profileDetails.social.linkedin,
       twitter: !profileDetails ? '' : profileDetails.social.twitter,
       youtube: !profileDetails ? '' : profileDetails.social.youtube,
+      githubusername: !profileDetails ? '' : profileDetails.githubusername,
     });
   }, []);
 
@@ -63,8 +70,6 @@ const EditProfileDetails = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(values);
-
     dispatch(updateProfile(values));
   };
 
@@ -74,38 +79,11 @@ const EditProfileDetails = (props) => {
       <AlertDismissable />
       <Form className='mb-4' onSubmit={(e) => handleSubmit(e)}>
         <Form.Group>
-          <Form.Label>Location</Form.Label>
-          <Form.Control
-            name='location'
-            type='text'
-            value={location}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
           <Form.Label>Company</Form.Label>
           <Form.Control
             name='company'
             type='text'
             value={company}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Website</Form.Label>
-          <Form.Control
-            name='website'
-            type='text'
-            value={website}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Status</Form.Label>
-          <Form.Control
-            name='status'
-            type='text'
-            value={status}
             onChange={handleChange}
           />
         </Form.Group>
@@ -119,20 +97,67 @@ const EditProfileDetails = (props) => {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label>Skills</Form.Label>
+          <Form.Label>Status</Form.Label>
+          <Form.Control
+            name='status'
+            type='text'
+            value={status}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Website</Form.Label>
+          <Form.Control
+            name='website'
+            type='text'
+            value={website}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Mobile Number</Form.Label>
+          <Form.Control
+            name='mobilenumber'
+            type='text'
+            value={mobilenumber}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Telephone Number</Form.Label>
+          <Form.Control
+            name='phonenumber'
+            type='text'
+            value={phonenumber}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Location</Form.Label>
+          <Form.Control
+            name='location'
+            type='text'
+            value={location}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Skills (separate with comma)</Form.Label>
           <Form.Control
             name='skills'
             type='text'
             value={skills}
             onChange={handleChange}
-            // required={true}
+            required={true}
           />
         </Form.Group>
         <h3 className='mt-3 mb-4'>Socials</h3>
         <Form.Group>
           <InputGroup>
             <InputGroup.Prepend>
-              <InputGroup.Text>https://github.com/</InputGroup.Text>
+              <InputGroup.Text className='input-group-label'>
+                https://github.com/
+              </InputGroup.Text>
             </InputGroup.Prepend>
             <Form.Control
               placeholder='Enter Github username'
@@ -207,8 +232,17 @@ const EditProfileDetails = (props) => {
             />
           </InputGroup>
         </Form.Group>
-        <Button size='lg' variant='primary' type='submit'>
-          Save Changes
+        <Button
+          size='lg'
+          variant='primary'
+          type='submit'
+          disabled={loadingForm}
+        >
+          <LoadingForm
+            loadingForm={loadingForm}
+            btnText='Save Changes'
+            loadingText='Updating profile, please wait...'
+          />
         </Button>
       </Form>
     </React.Fragment>

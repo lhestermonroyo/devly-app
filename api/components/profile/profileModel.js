@@ -8,24 +8,27 @@ const ProfileSchema = new mongoose.Schema({
   company: {
     type: String,
   },
-  website: {
-    type: String,
-  },
-  location: {
+  bio: {
     type: String,
   },
   status: {
     type: String,
   },
+  website: {
+    type: String,
+  },
+  mobilenumber: {
+    type: String,
+  },
+  phonenumber: {
+    type: String,
+  },
+  location: {
+    type: String,
+  },
   skills: {
     type: [String],
     required: true,
-  },
-  bio: {
-    type: String,
-  },
-  githubusername: {
-    type: String,
   },
   experience: [
     {
@@ -109,6 +112,9 @@ const ProfileSchema = new mongoose.Schema({
       type: String,
     },
     instagram: {
+      type: String,
+    },
+    githubusername: {
       type: String,
     },
   },

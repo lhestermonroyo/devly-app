@@ -44,15 +44,12 @@ async function createUser(req, res, next) {
       d: 'mm',
     });
 
-    const cover = '../';
-
     user = new User({
       firstname,
       lastname,
       email,
       password,
       avatar,
-      cover,
     });
 
     const salt = await bcrypt.genSalt(10);

@@ -6,15 +6,11 @@ import LoadingScreen from '../../components/LoadingScreen';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profileAction';
-import { getAllPosts } from '../../actions/postAction';
 import { getCurrentPage } from '../../actions/uiStateAction';
 
 const Dashboard = (props) => {
   const { history } = props;
-  const { profileDetails, loading: profileLoading } = useSelector(
-    (state) => state.profile
-  );
-  const { posts, loading: postLoading } = useSelector((state) => state.post);
+  const { profileDetails, loading } = useSelector((state) => state.profile);
   const { userDetails } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -22,15 +18,15 @@ const Dashboard = (props) => {
   useEffect(() => {
     dispatch(getCurrentPage('Dashboard'));
     dispatch(getCurrentProfile());
-    dispatch(getAllPosts());
   }, []);
 
-  return profileLoading || postLoading ? (
-    <LoadingScreen loadingMsg='Loading page, please wait...' />
-  ) : (
+  if (loading) {
+    return <LoadingScreen loadingMsg='Loading, please wait...' />;
+  }
+
+  return (
     <Main>
-      <h1>Dashboard</h1>
-      {!profileDetails ? (
+      {!profileDetails && (
         <Card>
           <Card.Body>
             <p className='lead'>
@@ -39,19 +35,14 @@ const Dashboard = (props) => {
                 `${userDetails.firstname} ${userDetails.lastname}`}
             </p>
             <p>
-              Looks like that you didn't setup your profile yet. Edit your
-              profile to get recognized.
+              Looks like that you didn't setup your profile yet. Complete your
+              profile to post contents.
             </p>
             <Button href='/edit-profile#profile-details'>Edit Profile</Button>
           </Card.Body>
         </Card>
-      ) : (
-        <React.Fragment>
-          {posts && (
-            <Posts posts={posts} userDetails={userDetails} history={history} />
-          )}
-        </React.Fragment>
       )}
+      <Posts history={history} />
     </Main>
   );
 };

@@ -12,14 +12,16 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       exact
       {...rest}
       render={(props) => {
-        if (isAuthenticated !== null && !loading) {
+        if (loading) {
+          return <LoadingScreen loadingMsg='Loading, please wait...' />;
+        }
+
+        if (isAuthenticated !== null) {
           return isAuthenticated === true ? (
             <Component {...props} />
           ) : (
             <Redirect to='/' />
           );
-        } else {
-          return <LoadingScreen loadingMsg='Signing in, please wait...' />;
         }
       }}
     />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Main from '../../components/Main';
-import { Form, Button, Nav } from 'react-bootstrap';
+import { Button, Nav } from 'react-bootstrap';
 import LoadingScreen from '../../components/LoadingScreen';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +15,9 @@ const EditProfile = (props) => {
 
   const [key, setKey] = useState(hash);
 
-  const { profileDetails, loading } = useSelector((state) => state.profile);
+  const { profileDetails, loading, loadingForm } = useSelector(
+    (state) => state.profile
+  );
 
   const dispatch = useDispatch();
 
@@ -23,20 +25,24 @@ const EditProfile = (props) => {
     dispatch(getCurrentProfile());
   }, []);
 
-  return loading ? (
-    <LoadingScreen loadingMsg='Loading page, please wait...' />
-  ) : (
+  if (loading) {
+    return <LoadingScreen loadingMsg='Loading page, please wait...' />;
+  }
+
+  return (
     <Main>
       <React.Fragment>
         <h1>
-          <Button
-            className='mr-3'
-            style={{ marginTop: -6 }}
-            href='profile'
-            variant='outline-primary'
-          >
-            <i className='fa fa-chevron-left fa-fw' /> Back
-          </Button>
+          {profileDetails && (
+            <Button
+              className='mr-3'
+              style={{ marginTop: -6 }}
+              href='profile'
+              variant='outline-primary'
+            >
+              <i className='fa fa-chevron-left fa-fw' /> Back
+            </Button>
+          )}
           Edit Profile
         </h1>
         <Nav
@@ -78,10 +84,13 @@ const EditProfile = (props) => {
           </Nav.Item>
         </Nav>
         {key === '#profile-details' && (
-          <EditProfileDetails profileDetails={profileDetails} />
+          <EditProfileDetails
+            profileDetails={profileDetails}
+            loadingForm={loadingForm}
+          />
         )}
-        {key === '#experience' && <NewExperience />}
-        {key === '#education' && <NewEducation />}
+        {key === '#experience' && <NewExperience loadingForm={loadingForm} />}
+        {key === '#education' && <NewEducation loadingForm={loadingForm} />}
       </React.Fragment>
     </Main>
   );

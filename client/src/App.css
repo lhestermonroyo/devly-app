@@ -21,11 +21,11 @@ p {
   border: none;
 }
 
-/* custom-loading */
-.loading-container {
-  background: #f0f0f0;
+.alert-dismissible .close {
+  padding: 0.5rem 1rem;
 }
 
+/* custom loading */
 .loading-screen {
   height: 100%;
   width: 100%;
@@ -37,6 +37,8 @@ p {
   align-items: center;
   flex-direction: column;
 }
+
+/* custom empty list */
 
 /* custom navbar */
 .nav-logo {
@@ -185,7 +187,7 @@ p {
 
 .nav-active {
   padding-bottom: 12px;
-  border-bottom: none;
+  border-bottom: 2px solid #4582ec;
 }
 
 .profile-details-subdetails {
@@ -205,6 +207,14 @@ p {
 
 .profile-details-socials .text-inline {
   display: inline;
+}
+
+/* custom edit profile */
+.input-group-label {
+  font-size: 16px;
+  line-height: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* custom write a post ui */

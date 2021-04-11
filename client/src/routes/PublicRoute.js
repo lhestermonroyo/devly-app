@@ -12,14 +12,16 @@ const PublicRoute = ({ component: Component, ...rest }) => {
       exact
       {...rest}
       render={(props) => {
-        if (isAuthenticated !== null && !loading) {
+        if (loading) {
+          return <LoadingScreen loadingMsg='Loading, please wait...' />;
+        }
+
+        if (isAuthenticated !== null) {
           return isAuthenticated === true ? (
             <Redirect to='/dashboard' />
           ) : (
-            <Component props={props} />
+            <Component {...props} />
           );
-        } else {
-          return <LoadingScreen loadingMsg='Loading page, please wait...' />;
         }
       }}
     />

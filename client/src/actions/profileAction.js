@@ -2,6 +2,8 @@ import axios from 'axios';
 import {
   PROFILE_BEGIN,
   PROFILE_END,
+  PROFILE_FORM_BEGIN,
+  PROFILE_FORM_END,
   PROFILE_DETAILS_SUCCESS,
   PROFILES_SUCCESS,
   REPOS_SUCCESS,
@@ -17,6 +19,14 @@ export const profileBegin = () => ({
 
 export const profileEnd = () => ({
   type: PROFILE_END,
+});
+
+export const profileFormBegin = () => ({
+  type: PROFILE_FORM_BEGIN,
+});
+
+export const profileFormEnd = () => ({
+  type: PROFILE_FORM_END,
 });
 
 export const profileDetailsSuccess = (res) => ({
@@ -53,8 +63,10 @@ export const getCurrentProfile = () => async (dispatch) => {
     const res = await axios.get('/api/profile/me');
 
     dispatch(profileDetailsSuccess(res.data));
+    dispatch(profileEnd());
   } catch (err) {
     dispatch(profileDetailsFail());
+    dispatch(profileEnd());
   }
 };
 
@@ -65,6 +77,7 @@ export const getProfileByUserId = (userId) => async (dispatch) => {
     const res = await axios.get(`/api/profile/${userId}`);
 
     dispatch(profileDetailsSuccess(res.data));
+    dispatch(profileEnd());
   } catch (err) {
     dispatch(profileDetailsFail());
     dispatch(
@@ -73,11 +86,12 @@ export const getProfileByUserId = (userId) => async (dispatch) => {
         alertMsg: 'An error occured while fetching data.',
       })
     );
+    dispatch(profileEnd());
   }
 };
 
 export const updateProfile = (profileData) => async (dispatch) => {
-  dispatch(profileBegin());
+  dispatch(profileFormBegin());
 
   const config = {
     headers: {
@@ -95,6 +109,7 @@ export const updateProfile = (profileData) => async (dispatch) => {
         alertMsg: 'Profile details has been updated.',
       })
     );
+    dispatch(profileFormEnd());
   } catch (err) {
     console.log(err);
     dispatch(profileDetailsFail());
@@ -104,11 +119,12 @@ export const updateProfile = (profileData) => async (dispatch) => {
         alertMsg: 'Failed to update profile, please try again.',
       })
     );
+    dispatch(profileFormEnd());
   }
 };
 
 export const addExperience = (experienceData) => async (dispatch) => {
-  dispatch(profileBegin());
+  dispatch(profileFormBegin());
 
   const config = {
     headers: {
@@ -123,13 +139,13 @@ export const addExperience = (experienceData) => async (dispatch) => {
       config
     );
 
-    dispatch(profileEnd());
     dispatch(
       alertSet({
         alertType: 'success',
         alertMsg: res.data.message.msg,
       })
     );
+    dispatch(profileFormEnd());
   } catch (err) {
     dispatch(profileDetailsFail());
     dispatch(
@@ -138,11 +154,12 @@ export const addExperience = (experienceData) => async (dispatch) => {
         alertMsg: 'Failed to update experience, please try again.',
       })
     );
+    dispatch(profileFormEnd());
   }
 };
 
 export const addEducation = (educationData) => async (dispatch) => {
-  dispatch(profileBegin());
+  dispatch(profileFormBegin());
 
   const config = {
     headers: {
@@ -157,13 +174,13 @@ export const addEducation = (educationData) => async (dispatch) => {
       config
     );
 
-    dispatch(profileEnd());
     dispatch(
       alertSet({
         alertType: 'success',
         alertMsg: res.data.message.msg,
       })
     );
+    dispatch(profileFormEnd());
   } catch (err) {
     dispatch(profileDetailsFail());
     dispatch(
@@ -172,5 +189,6 @@ export const addEducation = (educationData) => async (dispatch) => {
         alertMsg: 'Failed to update experience, please try again.',
       })
     );
+    dispatch(profileFormEnd());
   }
 };

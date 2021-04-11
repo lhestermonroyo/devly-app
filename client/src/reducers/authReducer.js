@@ -4,10 +4,13 @@ import {
   AUTH_SUCCESS,
   AUTH_FAIL,
   USER_LOADED,
+  AUTH_FORM_BEGIN,
+  AUTH_FORM_END,
 } from '../constants/authConstants';
 
 const initialState = {
   loading: false,
+  loadingForm: false,
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   userDetails: null,
@@ -26,10 +29,19 @@ export default function (state = initialState, action) {
         ...state,
         loading: false,
       };
+    case AUTH_FORM_BEGIN:
+      return {
+        ...state,
+        loadingForm: true,
+      };
+    case AUTH_FORM_END:
+      return {
+        ...state,
+        loadingForm: false,
+      };
     case USER_LOADED:
       return {
         ...state,
-        loading: false,
         isAuthenticated: true,
         userDetails: payload.userData,
       };
@@ -37,7 +49,6 @@ export default function (state = initialState, action) {
       localStorage.setItem('token', payload.userToken);
       return {
         ...state,
-        loading: false,
         isAuthenticated: true,
         userDetails: payload.userDetails,
       };
@@ -45,7 +56,6 @@ export default function (state = initialState, action) {
       localStorage.removeItem('token');
       return {
         ...state,
-        loading: false,
         token: null,
         isAuthenticated: false,
       };

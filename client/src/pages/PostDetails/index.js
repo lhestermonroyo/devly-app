@@ -28,9 +28,11 @@ const PostDetails = (props) => {
     dispatch(deletePost(match.params.id, history));
   };
 
-  return loading ? (
-    <LoadingScreen loadingMsg='Loading page, please wait...' />
-  ) : (
+  if (loading) {
+    return <LoadingScreen loadingMsg='Loading page, please wait...' />;
+  }
+
+  return (
     <Main>
       {postDetails && userDetails && (
         <React.Fragment>
@@ -72,8 +74,12 @@ const PostDetails = (props) => {
                 {postDetails.user.firstname} {postDetails.user.lastname}
                 <span className='ml-2 mr-2'>&bull;</span>
                 <TimeAgo date={postDetails.date} />
-                <span className='ml-2 mr-2'>&bull;</span>
-                <Button>Follow</Button>
+                {postDetails.user._id !== userDetails._id && (
+                  <React.Fragment>
+                    <span className='ml-2 mr-2'>&bull;</span>
+                    <Button>Follow</Button>
+                  </React.Fragment>
+                )}
               </p>
             </div>
             <div

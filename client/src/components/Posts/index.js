@@ -1,13 +1,51 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col, Image, Button } from 'react-bootstrap';
 import TimeAgo from 'react-timeago';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllPosts } from '../../actions/postAction';
+import LoadingComponent from '../LoadingComponent';
 
 const Posts = (props) => {
-  const { posts, history } = props;
+  const { history } = props;
+
+  const { posts, loading } = useSelector((state) => state.post);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllPosts());
+  }, []);
 
   const handleRedirect = (redirect) => {
     history.push(redirect);
   };
+
+  if (loading) {
+    return (
+      <LoadingComponent
+        loading={loading}
+        loadingMsg='Loading posts, please wait...'
+      />
+    );
+  }
+
+  if (posts.length === 0) {
+    return (
+      <React.Fragment>
+        <div className='mt-5 mb-5'>
+          <h5 className='text-center lead'>
+            No posts as of now. Want to share something?
+          </h5>
+          <p className='text-center'>
+            <Button className='mt-3 btn-primary' href='/create-post'>
+              <i className='fa fa-plus fa-fw'></i> Write a Post
+            </Button>
+          </p>
+        </div>
+      </React.Fragment>
+    );
+  }
 
   return (
     <Row className='mt-5'>

@@ -22,7 +22,7 @@ async function getOwnProfile(req, res, next) {
   try {
     const profile = await Profile.findOne({
       user: req.user.id,
-    }).populate('user', ['email', 'avatar', 'cover']);
+    }).populate('user', ['email', 'avatar']);
 
     if (!profile) {
       return res.status(404).json(
@@ -58,28 +58,31 @@ async function createProfile(req, res, next) {
 
   const {
     company,
-    website,
-    location,
     bio,
     status,
-    githubusername,
+    website,
+    mobilenumber,
+    phonenumber,
+    location,
     skills,
     youtube,
     facebook,
     twitter,
     instagram,
     linkedin,
+    githubusername,
   } = req.body;
 
   //  Build profile object
   const profileFields = {};
   profileFields.user = req.user.id;
   if (company) profileFields.company = company;
-  if (website) profileFields.website = website;
-  if (location) profileFields.location = location;
   if (bio) profileFields.bio = bio;
   if (status) profileFields.status = status;
-  if (githubusername) profileFields.githubusername = githubusername;
+  if (website) profileFields.website = website;
+  if (mobilenumber) profileFields.mobilenumber = mobilenumber;
+  if (phonenumber) profileFields.phonenumber = phonenumber;
+  if (location) profileFields.location = location;
   if (skills) {
     profileFields.skills = skills.split(',').map((skill) => skill.trim());
   }
@@ -91,11 +94,13 @@ async function createProfile(req, res, next) {
   if (twitter) profileFields.social.twitter = twitter;
   if (instagram) profileFields.social.instagram = instagram;
   if (linkedin) profileFields.social.linkedin = linkedin;
+  if (githubusername) profileFields.social.githubusername = githubusername;
 
   try {
     let profile = await Profile.findOne({ user: req.user.id });
 
     if (profile) {
+      // Update
       profile = await Profile.findOneAndUpdate(
         { user: req.user.id },
         { $set: profileFields },

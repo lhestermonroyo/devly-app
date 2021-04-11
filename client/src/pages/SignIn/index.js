@@ -3,7 +3,7 @@ import { Row, Col, Form, Button } from 'react-bootstrap';
 import Main from '../../components/Main';
 import useForm from '../../customHooks/useForm';
 import AlertDismissable from '../../components/Alert';
-import Loading from '../../components/Loading';
+import LoadingForm from '../../components/LoadingForm';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { signInUser } from '../../actions/authAction';
@@ -19,7 +19,7 @@ const SignIn = (props) => {
 
   const { email, password } = values;
 
-  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+  const { isAuthenticated, loadingForm } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -43,10 +43,6 @@ const SignIn = (props) => {
         <Col xs={6} md={3} />
         <Col xs={6} md={6}>
           <h1 className='text-center mb-5'>Sign In</h1>
-          <Loading
-            loadingMsg={'Logging in, please wait...'}
-            loading={loading}
-          />
           <AlertDismissable />
           <Form className='mb-4' onSubmit={(e) => handleSubmit(e)}>
             <Form.Group>
@@ -77,8 +73,13 @@ const SignIn = (props) => {
               variant='primary'
               type='submit'
               className='btn-block'
+              disabled={loadingForm}
             >
-              Sign In
+              <LoadingForm
+                loadingForm={loadingForm}
+                btnText='Sign In'
+                loadingText='Signing in, please wait...'
+              />
             </Button>
           </Form>
           <hr />

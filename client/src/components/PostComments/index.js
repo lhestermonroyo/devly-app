@@ -8,7 +8,7 @@ import {
   NavDropdown,
 } from 'react-bootstrap';
 import TimeAgo from 'react-timeago';
-import Loading from '../Loading';
+import LoadingComponent from '../LoadingComponent';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -16,6 +16,7 @@ import {
   deleteComment,
   updateComment,
 } from '../../actions/postAction';
+import EmptyComponent from '../EmptyComponent';
 
 const PostComments = (props) => {
   const { postId, comments, userDetails } = props;
@@ -123,7 +124,7 @@ const PostComments = (props) => {
             <Button type='submit'>Submit Comment</Button>
           </Form>
           <hr />
-          <Loading
+          <LoadingComponent
             loading={commentLoading}
             loadingMsg='Loading comments, please wait...'
           />
@@ -243,7 +244,7 @@ const PostComments = (props) => {
               })}
             </React.Fragment>
           ) : (
-            <p className='text-center lead mt-5'>No comments for now.</p>
+            <EmptyComponent emptyMsg='No comments for now.' />
           )}
         </Modal.Body>
       </Modal>

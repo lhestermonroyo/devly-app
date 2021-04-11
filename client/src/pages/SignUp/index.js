@@ -3,7 +3,7 @@ import { Row, Col, Form, Button } from 'react-bootstrap';
 import Main from '../../components/Main';
 import useForm from '../../customHooks/useForm';
 import AlertDismissable from '../../components/Alert';
-import Loading from '../../components/Loading';
+import LoadingForm from '../../components/LoadingForm';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { alertSet } from '../../actions/uiStateAction';
@@ -23,7 +23,7 @@ const SignUp = (props) => {
 
   const { firstname, lastname, email, password, confirmPassword } = values;
 
-  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+  const { isAuthenticated, loadingForm } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -57,10 +57,6 @@ const SignUp = (props) => {
         <Col sm={0} md={3} />
         <Col sm={12} md={6}>
           <h1 className='text-center mb-5'>Create an Account</h1>
-          <Loading
-            loadingMsg={'Signing up, please wait...'}
-            loading={loading}
-          />
           <AlertDismissable />
           <Form className='mb-4' onSubmit={(e) => handleSubmit(e)}>
             <Form.Group>
@@ -118,8 +114,13 @@ const SignUp = (props) => {
               variant='primary'
               type='submit'
               className='btn-block'
+              disabled={loadingForm}
             >
-              Sign Up
+              <LoadingForm
+                loadingForm={loadingForm}
+                btnText='Sign Up'
+                loadingText='Signing up, please wait...'
+              />
             </Button>
           </Form>
           <hr />

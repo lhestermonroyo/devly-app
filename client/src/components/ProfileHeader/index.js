@@ -11,8 +11,6 @@ import {
 const ProfileHeader = (props) => {
   const { profileDetails, userDetails } = props;
 
-  console.log(profileDetails.user.cover);
-
   return (
     <Container className='profile-container'>
       <Dropdown className='profile-edit-btn' as={ButtonGroup}>

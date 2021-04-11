@@ -16,9 +16,11 @@ const Profile = () => {
     dispatch(getCurrentProfile());
   }, []);
 
-  return loading ? (
-    <LoadingScreen loadingMsg='Loading page, please wait...' />
-  ) : (
+  if (loading) {
+    return <LoadingScreen loadingMsg='Loading, please wait...' />;
+  }
+
+  return (
     <React.Fragment>
       {profileDetails && userDetails && (
         <React.Fragment>
