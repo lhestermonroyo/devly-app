@@ -1,33 +1,13 @@
 import {
-  AUTH_BEGIN,
-  AUTH_END,
-  AUTH_FORM_BEGIN,
-  AUTH_FORM_END,
   AUTH_SUCCESS,
   AUTH_FAIL,
   USER_LOADED,
 } from '../constants/authConstants';
-import { alertSet } from './uiStateAction';
-import axios from 'axios';
+import api from '../util/apiRequest';
 import setAuthToken from '../util/setAuthToken';
+import setNotification from '../util/setNotification';
 
-export const authBegin = () => ({
-  type: AUTH_BEGIN,
-});
-
-export const authEnd = () => ({
-  type: AUTH_END,
-});
-
-export const authFormBegin = () => ({
-  type: AUTH_FORM_BEGIN,
-});
-
-export const authFormEnd = () => ({
-  type: AUTH_FORM_END,
-});
-
-export const authSuccess = (res) => ({
+export const authSuccess = res => ({
   type: AUTH_SUCCESS,
   payload: res,
 });
@@ -36,91 +16,49 @@ export const authFail = () => ({
   type: AUTH_FAIL,
 });
 
-export const userLoaded = (res) => ({
+export const userLoaded = res => ({
   type: USER_LOADED,
   payload: res,
 });
 
-export const signUpUser = (userData) => async (dispatch) => {
-  dispatch(authFormBegin());
-
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
+export const signUpUser = userData => async dispatch => {
   try {
-    const res = await axios.post('/api/user', userData, config);
-
+    const res = await api.post('/api/user', userData);
     dispatch(authSuccess(res.data));
-    dispatch(
-      alertSet({
-        alertType: 'success',
-        alertMsg: 'You have created an account successfully.',
-      })
-    );
-    dispatch(authFormEnd());
+    setNotification('success', 'Your account has been created.');
   } catch (err) {
     console.log('Error', err);
     dispatch(authFail());
-    dispatch(
-      alertSet({
-        alertType: 'danger',
-        alertMsg: 'An error occured while signing up.',
-      })
-    );
-    dispatch(authFormEnd());
+    setNotification('error', 'An error occured while signing up.');
   }
 };
 
-export const signInUser = (userData) => async (dispatch) => {
-  dispatch(authFormBegin());
-
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
+export const signInUser = userData => async dispatch => {
   try {
-    const res = await axios.post('/api/auth', userData, config);
-
+    const res = await api.post('/api/auth', userData);
     dispatch(authSuccess(res.data));
     dispatch(loadUser());
-    dispatch(authFormEnd());
   } catch (err) {
     console.log('Error', err.errors);
     dispatch(authFail());
-    dispatch(
-      alertSet({
-        alertType: 'danger',
-        alertMsg: 'Username and password incorrect.',
-      })
-    );
-    dispatch(authFormEnd());
+    setNotification('error', 'Username or password is incorrect.');
   }
 };
 
-export const signOutUser = (history) => (dispatch) => {
+export const signOutUser = history => dispatch => {
   history.push('/');
   dispatch(authFail());
 };
 
-export const loadUser = () => async (dispatch) => {
-  dispatch(authBegin());
-
+export const loadUser = () => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
 
   try {
-    const res = await axios.get('/api/auth');
-
+    const res = await api.get('/api/auth');
     dispatch(userLoaded(res.data));
-    dispatch(authEnd());
   } catch (err) {
     dispatch(authFail());
-    dispatch(authEnd());
   }
 };

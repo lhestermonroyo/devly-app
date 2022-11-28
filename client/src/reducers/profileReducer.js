@@ -1,8 +1,4 @@
 import {
-  PROFILE_BEGIN,
-  PROFILE_END,
-  PROFILE_FORM_BEGIN,
-  PROFILE_FORM_END,
   PROFILE_DETAILS_SUCCESS,
   PROFILES_SUCCESS,
   REPOS_SUCCESS,
@@ -22,26 +18,6 @@ const initialState = {
 export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case PROFILE_BEGIN:
-      return {
-        ...state,
-        loading: true,
-      };
-    case PROFILE_END:
-      return {
-        ...state,
-        loading: false,
-      };
-    case PROFILE_FORM_BEGIN:
-      return {
-        ...state,
-        loadingForm: true,
-      };
-    case PROFILE_FORM_END:
-      return {
-        ...state,
-        loadingForm: false,
-      };
     case PROFILE_DETAILS_SUCCESS:
       return {
         ...state,

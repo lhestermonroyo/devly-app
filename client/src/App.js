@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import 'antd/dist/antd.css';
 import './App.css';
 import Header from './components/Header';
 import Routes from './routes';
+import LoadingScreen from './components/LoadingScreen';
+
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
@@ -18,17 +21,19 @@ if (localStorage.token) {
 
 const App = () => {
   useEffect(() => {
-    store.dispatch(loadUser());
+    authenticateUser();
   }, []);
+
+  const authenticateUser = async () => {
+    await store.dispatch(loadUser());
+  };
 
   return (
     <Provider store={store}>
-      <React.Fragment>
-        <BrowserRouter>
-          <Header history={history} />
-          <Routes history={history} />
-        </BrowserRouter>
-      </React.Fragment>
+      <BrowserRouter>
+        <Header history={history} />
+        <Routes history={history} />
+      </BrowserRouter>
     </Provider>
   );
 };

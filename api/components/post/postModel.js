@@ -6,18 +6,10 @@ const PostSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users',
   },
-  title: {
-    type: String,
-    required: true,
-  },
   content: {
     type: String,
-    required: true,
   },
-  thumbnail: {
-    type: String,
-    required: false,
-  },
+  fileList: [{ type: String }],
   likes: [
     {
       user: {

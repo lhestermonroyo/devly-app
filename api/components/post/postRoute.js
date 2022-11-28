@@ -17,19 +17,9 @@ const auth = require('../../utils/authUtil');
 
 const router = express.Router();
 
-router.post(
-  '/',
-  [auth, check('title', 'Title is required.').not().isEmpty()],
-  [auth, check('content', 'Content is required.').not().isEmpty()],
-  addPost
-);
+router.post('/', auth, addPost);
 
-router.put(
-  '/:id',
-  [auth, check('title', 'Title is required.').not().isEmpty()],
-  [auth, check('content', 'Content is required.').not().isEmpty()],
-  updatePost
-);
+router.put('/:id', auth, updatePost);
 
 router.get('/', auth, getAllPosts);
 

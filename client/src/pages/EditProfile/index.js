@@ -5,18 +5,18 @@ import LoadingScreen from '../../components/LoadingScreen';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentProfile } from '../../actions/profileAction';
-import EditProfileDetails from '../../components/EditProfileDetails';
-import NewExperience from '../../components/NewExperience';
-import NewEducation from '../../components/NewEducation';
+import EditProfileDetails from './components/EditProfileDetails';
+import NewExperience from './components/NewExperience';
+import NewEducation from './components/NewEducation';
 
-const EditProfile = (props) => {
+const EditProfile = props => {
   const { history } = props;
   const { hash } = history.location;
 
   const [key, setKey] = useState(hash);
 
   const { profileDetails, loading, loadingForm } = useSelector(
-    (state) => state.profile
+    state => state.profile
   );
 
   const dispatch = useDispatch();
@@ -26,29 +26,30 @@ const EditProfile = (props) => {
   }, []);
 
   if (loading) {
-    return <LoadingScreen loadingMsg='Loading page, please wait...' />;
+    return <LoadingScreen loadingMsg="Loading page, please wait..." />;
   }
+
+  console.log(profileDetails);
 
   return (
     <Main>
       <React.Fragment>
-        <h1>
-          {profileDetails && (
-            <Button
-              className='mr-3'
-              style={{ marginTop: -6 }}
-              href='profile'
-              variant='outline-primary'
-            >
-              <i className='fa fa-chevron-left fa-fw' /> Back
-            </Button>
-          )}
+        <h1 className="display-4">
+          <Button
+            size="sm"
+            style={{ marginTop: -6 }}
+            href="/profile"
+            variant="link"
+          >
+            <i className="fa fa-chevron-left fa-fw" />
+          </Button>
           Edit Profile
         </h1>
         <Nav
-          className='profile-details-nav mt-5'
-          activeKey={key}
-          onSelect={(key) => setKey(key)}
+          fill={true}
+          className="profile-details-nav mt-3"
+          defaultActiveKey={key}
+          onSelect={key => setKey(key)}
         >
           <Nav.Item>
             <Nav.Link
@@ -57,7 +58,7 @@ const EditProfile = (props) => {
                   ? 'nav-active text-primary'
                   : 'text-muted'
               }
-              eventKey='#profile-details'
+              eventKey="#profile-details"
             >
               Profile Details
             </Nav.Link>
@@ -65,11 +66,23 @@ const EditProfile = (props) => {
           <Nav.Item>
             <Nav.Link
               className={
+                key === '#profile-picture'
+                  ? 'nav-active text-primary'
+                  : 'text-muted'
+              }
+              eventKey="#profile-picture"
+            >
+              Profile Picture
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              className={
                 key === '#experience' ? 'nav-active text-primary' : 'text-muted'
               }
-              eventKey='#experience'
+              eventKey="#experience"
             >
-              Experience
+              Add Experience
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
@@ -77,9 +90,9 @@ const EditProfile = (props) => {
               className={
                 key === '#education' ? 'nav-active text-primary' : 'text-muted'
               }
-              eventKey='#education'
+              eventKey="#education"
             >
-              Education
+              Add Education
             </Nav.Link>
           </Nav.Item>
         </Nav>

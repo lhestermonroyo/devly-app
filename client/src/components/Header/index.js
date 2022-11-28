@@ -2,27 +2,28 @@ import React from 'react';
 import {
   Navbar,
   Nav,
-  NavDropdown,
+  Dropdown,
   Container,
   Button,
   Image,
   Form,
   InputGroup,
   FormControl,
+  DropdownButton,
 } from 'react-bootstrap';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { signOutUser } from '../../actions/authAction';
 
-const Header = (props) => {
+const Header = props => {
   const { history } = props;
 
   const dispatch = useDispatch();
 
   const { isAuthenticated, userDetails, loading } = useSelector(
-    (state) => state.auth
+    state => state.auth
   );
-  const { currentPage } = useSelector((state) => state.uiState);
+  const { currentPage } = useSelector(state => state.uiState);
 
   const handleLogOut = () => {
     dispatch(signOutUser(history));
@@ -30,18 +31,18 @@ const Header = (props) => {
 
   const publicLinks = (
     <React.Fragment>
-      <Nav className='mr-auto' />
+      <Nav className="mr-auto" />
       <Nav>
         <Nav.Link
           className={currentPage === 'Sign In' ? 'active mr-3' : 'mr-3'}
-          href='/sign-in'
+          href="/sign-in"
         >
           Sign In
         </Nav.Link>
         <Button
-          href='/sign-up'
+          href="/sign-up"
           className={currentPage === 'Sign Up' && 'active'}
-          variant='primary'
+          variant="outline-primary"
         >
           Create an Account
         </Button>
@@ -51,70 +52,68 @@ const Header = (props) => {
 
   const privateLinks = (
     <React.Fragment>
-      <Nav className='mr-auto'>
+      <Nav className="mr-auto">
         <Form inline>
           <InputGroup>
             <InputGroup.Text>
-              <i className='fas fa-search fa-fw' />
+              <i className="fas fa-search fa-fw" />
             </InputGroup.Text>
-            <FormControl placeholder='Search...' className='input-search' />
+            <FormControl placeholder="Search..." className="input-search" />
           </InputGroup>
         </Form>
       </Nav>
       <Nav>
-        <Button
-          className={currentPage === 'Create Post' && 'active'}
-          href='/create-post'
-        >
-          <i class='fa fa-plus fa-fw' /> Write a Post
-        </Button>
         <Nav.Link
-          className={currentPage === 'Notifs' ? 'active ml-3' : 'ml-3'}
-          href='/notifications'
+          className={currentPage === 'Dashboard' && 'text-primary active'}
+          href="/dashboard"
         >
-          <i className='fas fa-bell fa-fw nav-link-icon' />
+          <i className="fas fa-home fa-fw nav-link-icon" />
         </Nav.Link>
         <Nav.Link
-          className={currentPage === 'Saved Posts' && 'active'}
-          href='/bookmarks'
+          className={currentPage === 'Notifs' && 'active'}
+          href="/notifications"
         >
-          <i className='fas fa-bookmark fa-fw nav-link-icon' />
+          <i className="fas fa-bell fa-fw nav-link-icon" />
         </Nav.Link>
-        <NavDropdown
-          alignRight
+        <Nav.Link
+          className={currentPage === 'Messages' && 'active'}
+          href="/messages"
+        >
+          <i className="fas fa-envelope fa-fw nav-link-icon" />
+        </Nav.Link>
+        <DropdownButton
+          align="end"
+          className="nav-dropdown"
+          variant="default"
           title={
             <Image
-              className='nav-avatar'
+              className="nav-avatar"
               src={userDetails && userDetails.avatar}
               roundedCircle
               thumbnail
             />
           }
-          id='nav-dropdown'
         >
-          <NavDropdown.Item href='/profile'>
+          <Dropdown.Item href="/profile">
             {userDetails && (
               <React.Fragment>
-                <p className='nav-name-content'>
+                <p className="nav-name-content">
                   <strong>
                     {userDetails.firstname} {userDetails.lastname}
                   </strong>
                 </p>
-                <span className='text-muted'>{userDetails.email}</span>
+                <span className="text-muted">{userDetails.email}</span>
               </React.Fragment>
             )}
-          </NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item href='/create-post'>Write a post</NavDropdown.Item>
-          <NavDropdown.Item href='/posts'>Posts</NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item href='/account-settings'>
+          </Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item href="/account-settings">
             Account Settings
-          </NavDropdown.Item>
-          <NavDropdown.Item onClick={() => handleLogOut()}>
-            Log Out
-          </NavDropdown.Item>
-        </NavDropdown>
+          </Dropdown.Item>
+          <Dropdown.Item href="/help">Help</Dropdown.Item>
+          <Dropdown.Divider />
+          <Dropdown.Item onClick={() => handleLogOut()}>Log Out</Dropdown.Item>
+        </DropdownButton>
       </Nav>
     </React.Fragment>
   );
@@ -123,20 +122,20 @@ const Header = (props) => {
     <>
       <Navbar
         collapseOnSelect
-        expand='lg'
-        bg='light'
-        variant='light'
-        fixed='top'
+        expand="lg"
+        bg="light"
+        variant="light"
+        fixed="top"
       >
         <Container>
           <Navbar.Brand
             href={isAuthenticated ? '/dashboard' : '/'}
-            className='nav-logo'
+            className="nav-logo"
           >
-            <i className='fa fa-code fa-fw' /> DEVLY
+            <i className="fa fa-code fa-fw" /> DEVLY
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-          <Navbar.Collapse id='responsive-navbar-nav'>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
             {!loading && (
               <React.Fragment>
                 {isAuthenticated ? privateLinks : publicLinks}

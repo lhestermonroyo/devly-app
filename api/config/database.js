@@ -6,7 +6,7 @@ const DatabaseError = require('../responses/DatabaseError');
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(MONGODB_URI, {
+    mongoose.connect(MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,

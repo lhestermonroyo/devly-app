@@ -1,13 +1,11 @@
 import {
-  POST_BEGIN,
-  POST_END,
-  COMMENT_BEGIN,
   POST_DETAILS_SUCCESS,
   POST_DETAILS_FAIL,
   POSTS_SUCCESS,
   POSTS_FAIL,
   UPDATE_LIKE_SUCCESS,
   COMMENT_SUCCESS,
+  POSTS_UPDATE_LIKE_SUCCESS,
 } from '../constants/postConstants';
 
 const initialState = {
@@ -20,21 +18,6 @@ const initialState = {
 export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case POST_BEGIN:
-      return {
-        ...state,
-        loading: true,
-      };
-    case POST_END:
-      return {
-        ...state,
-        loading: false,
-      };
-    case COMMENT_BEGIN:
-      return {
-        ...state,
-        commentLoading: true,
-      };
     case POST_DETAILS_SUCCESS:
       return {
         ...state,
@@ -58,6 +41,15 @@ export default function (state = initialState, action) {
         ...state,
         loading: false,
         posts: [],
+      };
+    case POSTS_UPDATE_LIKE_SUCCESS:
+      return {
+        ...state,
+        posts: state.posts.map(post =>
+          post._id === payload.postId
+            ? { ...post, likes: payload.postLikes }
+            : post
+        ),
       };
     case UPDATE_LIKE_SUCCESS:
       return {

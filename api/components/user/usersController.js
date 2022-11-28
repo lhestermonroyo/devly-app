@@ -48,7 +48,7 @@ async function createUser(req, res, next) {
       firstname,
       lastname,
       email,
-      password,
+      aw,
       avatar,
     });
 

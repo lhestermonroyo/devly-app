@@ -2,14 +2,20 @@ import React, { useEffect } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import Main from '../../components/Main';
 import useForm from '../../customHooks/useForm';
-import AlertDismissable from '../../components/Alert';
-import LoadingForm from '../../components/LoadingForm';
+import FormField from '../../components/FormField';
+import FormButton from '../../components/FormButton';
+
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { signInUser } from '../../actions/authAction';
-import { getCurrentPage } from '../../actions/uiStateAction';
+import {
+  getCurrentPage,
+  loadingFormEnd,
+  loadingFormStart,
+} from '../../actions/uiStateAction';
+import Copyright from '../../components/Copyright';
 
-const SignIn = (props) => {
+const SignIn = props => {
   const { history } = props;
 
   const [values, handleChange] = useForm({
@@ -19,7 +25,8 @@ const SignIn = (props) => {
 
   const { email, password } = values;
 
-  const { isAuthenticated, loadingForm } = useSelector((state) => state.auth);
+  const { isAuthenticated } = useSelector(state => state.auth);
+  const { loadingForm } = useSelector(state => state.uiState);
 
   const dispatch = useDispatch();
 
@@ -27,10 +34,12 @@ const SignIn = (props) => {
     dispatch(getCurrentPage('Sign In'));
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
-    dispatch(signInUser(values));
+    dispatch(loadingFormStart());
+    await dispatch(signInUser(values));
+    dispatch(loadingFormEnd());
   };
 
   if (isAuthenticated) {
@@ -42,57 +51,43 @@ const SignIn = (props) => {
       <Row>
         <Col xs={6} md={3} />
         <Col xs={6} md={6}>
-          <h1 className='text-center mb-5'>Sign In</h1>
-          <AlertDismissable />
-          <Form className='mb-4' onSubmit={(e) => handleSubmit(e)}>
-            <Form.Group>
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                name='email'
-                type='email'
-                value={email}
-                onChange={handleChange}
-                required={true}
-              />
+          <h1 className="display-4 text-center mb-4">Sign In</h1>
+          <Form className="mb-4" onSubmit={e => handleSubmit(e)}>
+            <FormField
+              label="Email"
+              type="email"
+              placeholder="Enter email"
+              name="email"
+              value={email}
+              handleChange={handleChange}
+              required={true}
+            />
+            <FormField
+              label="Password"
+              type="password"
+              placeholder="Enter password"
+              name="password"
+              value={password}
+              handleChange={handleChange}
+              required={true}
+            />
+            <Form.Group className="mt-4 mb-4">
+              <FormButton
+                loading={loadingForm}
+                type="submit"
+                size="lg"
+                block={true}
+              >
+                Sign In
+              </FormButton>
             </Form.Group>
-            <Form.Group>
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                name='password'
-                type='password'
-                value={password}
-                onChange={handleChange}
-                required={true}
-              />
-            </Form.Group>
-            <Form.Group controlId='formBasicCheckbox'>
-              <Form.Check type='checkbox' label='Check me out' />
-            </Form.Group>
-            <Button
-              size='lg'
-              variant='primary'
-              type='submit'
-              className='btn-block'
-              disabled={loadingForm}
-            >
-              <LoadingForm
-                loadingForm={loadingForm}
-                btnText='Sign In'
-                loadingText='Signing in, please wait...'
-              />
-            </Button>
           </Form>
           <hr />
-          <p className='text-center'>Don't have an account yet?</p>
-          <Button
-            size='lg'
-            href='/sign-up'
-            variant='outline-primary'
-            type='submit'
-            className='btn-block mt-3'
-          >
-            Create an Account
-          </Button>
+          <p className="text-center">Don't have an account yet?</p>
+          <FormButton href="/sign-up" align="center" variant="link" size="lg">
+            Sign Up
+          </FormButton>
+          <Copyright className="mt-5 text-center" />
         </Col>
         <Col xs={6} md={3} />
       </Row>

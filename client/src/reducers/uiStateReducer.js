@@ -1,32 +1,39 @@
 import {
-  ALERT_SET,
-  ALERT_HIDE,
   GET_CURRENT_PAGE,
+  LOADING_FORM_START,
+  LOADING_FORM_END,
+  LOADING_PAGE_START,
+  LOADING_PAGE_END,
 } from '../constants/uiStateConstants';
 
 const initialState = {
-  alertType: null,
-  alertMsg: '',
-  alertShow: false,
+  loadingForm: false,
+  loadingPage: false,
   currentPage: null,
 };
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case ALERT_SET:
+    case LOADING_FORM_START:
       return {
         ...state,
-        alertType: payload.alertType,
-        alertMsg: payload.alertMsg,
-        alertShow: true,
+        loadingForm: true,
       };
-    case ALERT_HIDE:
+    case LOADING_FORM_END:
       return {
         ...state,
-        alertType: null,
-        alertMsg: '',
-        alertShow: false,
+        loadingForm: false,
+      };
+    case LOADING_PAGE_START:
+      return {
+        ...state,
+        loadingPage: true,
+      };
+    case LOADING_PAGE_END:
+      return {
+        ...state,
+        loadingPage: false,
       };
     case GET_CURRENT_PAGE:
       return {

@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const HttpError = require('../responses/HttpError');
 
-module.exports = function (req, res, next) {
+module.erxports = function (req, res, next) {
   const token = req.header('x-auth-token');
 
   if (!token) {

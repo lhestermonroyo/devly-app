@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Main from '../../components/Main';
 import { Button, Form } from 'react-bootstrap';
-import { Editor } from '@tinymce/tinymce-react';
 import LoadingScreen from '../../components/LoadingScreen';
-import AlertDismissable from '../../components/Alert';
-// Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostDetails, updatePost } from '../../actions/postAction';
+import { Input } from 'antd';
+import FormButton from '../../components/FormButton';
+import { loadingFormEnd, loadingFormStart } from '../../actions/uiStateAction';
 
-const EditPost = (props) => {
-  const { match, history } = props;
-  const { postDetails, loading } = useSelector((state) => state.post);
+const EditPost = props => {
+  const { match } = props;
+  const { postDetails, loading } = useSelector(state => state.post);
+
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -19,20 +22,19 @@ const EditPost = (props) => {
   }, []);
 
   return loading ? (
-    <LoadingScreen loadingMsg='Loading page, please wait...' />
+    <LoadingScreen loadingMsg="Loading page, please wait..." />
   ) : (
     <Main>
       {postDetails && (
         <React.Fragment>
-          <AlertDismissable />
-          <h1>
+          <h1 className="display-4">
             <Button
-              className='mr-3'
+              size="sm"
               style={{ marginTop: -6 }}
-              href={`/post/${match.params.id}`}
-              variant='outline-primary'
+              href="/dashboard"
+              variant="link"
             >
-              <i className='fa fa-chevron-left fa-fw' /> Back
+              <i className="fa fa-chevron-left fa-fw" />
             </Button>
             Edit Post
           </h1>
@@ -43,82 +45,45 @@ const EditPost = (props) => {
   );
 };
 
-const EditPostForm = (props) => {
+const EditPostForm = props => {
   const { postDetails, history } = props;
-  const [title, handleTitle] = useState('');
-  const [content, handleContent] = useState((content, editor) => content);
+  const [content, setContent] = useState('');
 
-  useEffect(() => {
-    handleTitle(postDetails ? postDetails.title : '');
-    handleContent(postDetails ? postDetails.content : '');
-  }, []);
+  const { loadingForm } = useSelector(state => state.uiState);
 
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
-    const thumbnail = document
-      .querySelector('#preview img')
-      .getAttribute('src');
     const postData = {
-      title,
       content,
-      thumbnail,
     };
 
-    dispatch(updatePost(postDetails._id, postData, history));
+    dispatch(loadingFormStart());
+    await dispatch(updatePost(postDetails._id, postData, history));
+    dispatch(loadingFormEnd());
   };
 
   return (
-    <Form onSubmit={(e) => handleSubmit(e)}>
-      <Button
-        size='lg'
-        type='submit'
-        variant='primary'
-        className='float-right publish-post-btn'
+    <Form onSubmit={e => handleSubmit(e)}>
+      <FormButton
+        loading={loadingForm}
+        size="lg"
+        type="submit"
+        className="float-right publish-post-btn"
       >
         Save Changes
-      </Button>
-      <Form.Group className='mt-5'>
-        <Form.Control
-          className='post-title-textarea'
-          name='title'
-          as='textarea'
-          placeholder='Title'
-          value={title}
-          onChange={(e) => handleTitle(e.target.value)}
-          required={true}
-        />
-      </Form.Group>
-      <Editor
-        apiKey='d01fggzhnl8ykqa0mv3t83mdkkw8f4j5aj305lr5it0pvjck'
-        initialValue={content}
-        init={{
-          placeholder: 'What do you have in mind?',
-          selector: 'textarea',
-          resize: false,
-          height: 500,
-          menubar: false,
-          toolbar_mode: 'floating',
-          toolbar_location: 'bottom',
-          skin: 'outside',
-          plugins: [
-            'advlist autolink lists link image charmap print preview anchor',
-            'searchreplace visualblocks code fullscreen',
-            'insertdatetime media table paste code help wordcount',
-          ],
-          toolbar:
-            'undo redo | formatselect | bold italic backcolor | link image | \
-             alignleft aligncenter alignright alignjustify | \
-             bullist numlist outdent indent | removeformat | help',
-        }}
-        onEditorChange={(e) => handleContent(e)}
-      />
-      <div
-        style={{ display: 'none' }}
-        id='preview'
-        dangerouslySetInnerHTML={{ __html: content }}
+      </FormButton>
+      <Input.TextArea
+        size="large"
+        placeholder={`What's on your mind?`}
+        onChange={e => setContent(e.target.value)}
+        defaultValue={postDetails && postDetails.content}
+        autoSize={{ minRows: 4 }}
+        required
+        className="mb-3"
+        style={{ borderRadius: 6 }}
       />
     </Form>
   );
